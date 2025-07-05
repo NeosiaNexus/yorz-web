@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  name          String
+  email         String
+  emailVerified Boolean
+  image         String?
+
+  sessions    Session[]
+  accounts    Account[]
+  files       StorageFile[]
+  sharedFiles StorageFile[] @relation("file_shared_with")
+
+  role       String?
+  banned     Boolean?
+  banReason  String?
+  banExpires DateTime?
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  impersonatedBy String?
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
+
+model StorageFile {
+  id String @id @default(cuid())
+
+  path           String @unique
+  publicUrl      String @unique
+  bucket         String
+  fileName       String
+  size           Int
+  type           String
+  totalDownloads Int    @default(0)
+
+  uploadedAt DateTime  @default(now())
+  expiresAt  DateTime?
+
+  isPublic    Boolean @default(true)
+  label       String?
+  description String?
+  metadata    Json?
+
+  uploaderId String
+  uploader   User   @relation(fields: [uploaderId], references: [id], onDelete: Cascade)
+
+  sharedWith User[] @relation("file_shared_with")
+
+  @@index([uploaderId])
+  @@index([expiresAt])
+  @@map("storage_file")
+}
