@@ -8,8 +8,10 @@ import Services from './Services';
 export default function Home(): React.JSX.Element {
   return (
     <div className="flex flex-col gap-30">
-      <Navbar />
-      <Hero />
+      <div>
+        <Navbar />
+        <Hero />
+      </div>
       <Confiance />
       <Services />
       <Features />
