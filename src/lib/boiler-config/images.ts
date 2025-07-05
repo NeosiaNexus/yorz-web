@@ -1,4 +1,4 @@
-interface Image {
+export interface Image {
   src: string;
   width: number;
   height: number;
@@ -59,6 +59,24 @@ const images: Record<string, Image> = {
     width: 783,
     height: 998,
     alt: 'Personnage de Yorz',
+  },
+  FEATURE_DISCUSSION: {
+    src: '/images/features/discussion.png',
+    width: 142,
+    height: 142,
+    alt: 'Discussion fluide et efficace',
+  },
+  FEATURE_RECOMPENSES: {
+    src: '/images/features/recompenses.png',
+    width: 97,
+    height: 93,
+    alt: 'Recompenses',
+  },
+  FEATURE_TEMPS: {
+    src: '/images/features/temps.png',
+    width: 124,
+    height: 119,
+    alt: 'Temps',
   },
 };
 
