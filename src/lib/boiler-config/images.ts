@@ -54,6 +54,12 @@ const images: Record<string, Image> = {
     height: 129,
     alt: 'Logo de Slayer Adventure en blanc',
   },
+  PERSONNAGE: {
+    src: '/images/personnage.png',
+    width: 783,
+    height: 998,
+    alt: 'Personnage de Yorz',
+  },
 };
 
 export default images;
