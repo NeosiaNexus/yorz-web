@@ -1,10 +1,10 @@
 const config = {
-  name: "Neosia's Boilerplate",
-  description: 'Boilerplate Next.js efficae par NeosiaNexus',
+  name: "YorzStudio",
+  description: 'Site officiel de YorzStudio',
   lang: 'fr',
   contact: {
-    email: 'contact@neosianexus.com',
-    company: "Neosia's Company", // ex : "Spotify"
+    email: 'maxenceyorz@gmail.com',
+    company: "YorzStudio",
   },
 };
 
