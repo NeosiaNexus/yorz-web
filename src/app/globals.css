@@ -42,7 +42,7 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  --yorz-dark: #050219;
+  --color-yorz-dark: #050219;
 }
 
 :root {

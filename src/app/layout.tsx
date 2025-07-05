@@ -24,8 +24,11 @@ export default function RootLayout({
 }>): React.JSX.Element {
   return (
     <html lang={config.lang} suppressHydrationWarning className={poppins.variable}>
-      <body className={`w-screen overflow-x-hidden antialiased`} suppressHydrationWarning>
-        <Toaster richColors expand theme='dark' />
+      <body
+        className={`bg-yorz-dark w-screen overflow-x-hidden antialiased`}
+        suppressHydrationWarning
+      >
+        <Toaster richColors expand theme="dark" />
         {children}
       </body>
     </html>

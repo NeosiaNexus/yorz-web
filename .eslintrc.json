@@ -52,6 +52,7 @@
     "react/jsx-boolean-value": ["warn", "never"],
     "react/self-closing-comp": "warn",
     "react-hooks/exhaustive-deps": "warn",
+    "jsx-a11y/alt-text": "off",
     "unused-imports/no-unused-vars": [
       "warn",
       {
