@@ -9,6 +9,21 @@ import auth from '@/lib/auth/auth';
 import { routes } from '@/lib/boiler-config';
 import images from '@/lib/boiler-config/images';
 
+const links: { label: string; href: string }[] = [
+  {
+    label: 'Portfolio',
+    href: routes.portfolio,
+  },
+  {
+    label: 'Tarifs',
+    href: routes.tarifs,
+  },
+  {
+    label: 'Contact',
+    href: routes.contact,
+  },
+];
+
 const NavBar = async (): Promise<React.JSX.Element> => {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -28,16 +43,14 @@ const NavBar = async (): Promise<React.JSX.Element> => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-2 font-medium text-white uppercase">
-        <Link href={routes.portfolio}>
-          <p>Portfolio</p>
-        </Link>
-        <Link href={routes.tarifs}>
-          <p>Tarifs</p>
-        </Link>
-        <Link href={routes.contact}>
-          <p>Contact</p>
-        </Link>
+      <div className="flex flex-col gap-3 font-medium text-white uppercase">
+        {links.map(link => (
+          <Link href={link.href} className="relative w-fit" key={link.label}>
+            <p className='transition-all duration-300 content-[""] before:absolute before:bottom-0 before:left-0 before:h-[2px] before:w-[0px] before:rounded-full before:bg-white before:transition-all before:duration-300 before:content-[""] hover:before:absolute hover:before:bottom-0 hover:before:left-0 hover:before:h-[2px] hover:before:w-full hover:before:rounded-full hover:before:bg-white'>
+              {link.label}
+            </p>
+          </Link>
+        ))}
       </div>
     </nav>
   );
