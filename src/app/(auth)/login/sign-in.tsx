@@ -3,7 +3,6 @@
 import { useState } from 'react';
 
 import { Loader2 } from 'lucide-react';
-import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
@@ -119,10 +118,7 @@ const SignIn = (): React.JSX.Element => {
             </Button>
           </div>
           <div className="text-muted-foreground mt-4 text-center text-sm">
-            Vous rencontrez des difficultés ? Contactez notre{' '}
-            <Link href={routes.support} className="text-primary hover:underline">
-              support
-            </Link>
+            Vous rencontrez des difficultés ? Contactez l&apos;administrateur du site.
           </div>
         </div>
       </CardContent>
