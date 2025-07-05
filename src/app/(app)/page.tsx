@@ -1,4 +1,10 @@
+import Image from 'next/image';
+import Link from 'next/link';
+
+import Footer from '@/components/project/footer/Footer';
 import { Navbar } from '@/components/project/navbar';
+import { routes } from '@/lib/boiler-config';
+import images from '@/lib/boiler-config/images';
 
 import Confiance from './Confiance';
 import Features from './Features';
@@ -15,6 +21,13 @@ export default function Home(): React.JSX.Element {
       <Confiance />
       <Services />
       <Features />
+      <Link
+        href={routes.portfolio}
+        className="w-fit self-center transition-all duration-300 hover:scale-105"
+      >
+        <Image {...images.HOME_PORTFOLIO} className="w-[300px]" />
+      </Link>
+      <Footer />
     </div>
   );
 }

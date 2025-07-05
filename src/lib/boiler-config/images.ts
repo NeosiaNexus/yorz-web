@@ -78,6 +78,12 @@ const images: Record<string, Image> = {
     height: 119,
     alt: 'Temps',
   },
+  HOME_PORTFOLIO: {
+    src: '/images/home-portfolio.png',
+    width: 664,
+    height: 376,
+    alt: 'Portfolio',
+  },
 };
 
 export default images;

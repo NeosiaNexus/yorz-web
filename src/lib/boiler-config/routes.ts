@@ -19,6 +19,9 @@ const routes = {
     x: '#',
     discord: '#',
   },
+  legals: {
+    mentionsLegales: '/mentions-legales',
+  },
 };
 
 export default routes;

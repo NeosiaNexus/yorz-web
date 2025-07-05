@@ -8,7 +8,7 @@ import images from '@/lib/boiler-config/images';
 const Confiance = async (): Promise<React.JSX.Element> => {
   return (
     <div className="flex flex-col items-center gap-25">
-      <p className="bg-gradient-to-r from-[#D2FE00] to-[#55FF00] bg-clip-text text-center text-2xl font-bold text-transparent">
+      <p className="bg-gradient-to-r from-[#D2FE00] to-[#55FF00] bg-clip-text text-center text-3xl font-bold text-transparent">
         Il m&apos;ont fait confiance
       </p>
       <div className="-rotate-2">
