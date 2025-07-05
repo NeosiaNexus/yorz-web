@@ -14,6 +14,11 @@ const routes = {
     login: '/login',
     register: '/register',
   },
+  socials: {
+    instagram: '#',
+    x: '#',
+    discord: '#',
+  },
 };
 
 export default routes;
