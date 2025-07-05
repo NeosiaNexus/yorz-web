@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/project/navbar';
 
+import Confiance from './Confiance';
 import Hero from './Hero';
 
 export default function Home(): React.JSX.Element {
@@ -7,6 +8,7 @@ export default function Home(): React.JSX.Element {
     <div>
       <Navbar />
       <Hero />
+      <Confiance />
     </div>
   );
 }

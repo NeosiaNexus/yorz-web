@@ -48,6 +48,12 @@ const images: Record<string, Image> = {
     height: 85,
     alt: "Logo d'une bulle de tchat",
   },
+  SLAYER_ADVENTURE_LOGO_WHITE: {
+    src: '/svg/slayer-adventure-logo-white.svg',
+    width: 421,
+    height: 129,
+    alt: 'Logo de Slayer Adventure en blanc',
+  },
 };
 
 export default images;
