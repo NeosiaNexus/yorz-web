@@ -75,7 +75,13 @@ const Footer = async (): Promise<React.JSX.Element> => {
           <div className="text-sm font-extralight">
             <p>Yorzdraw -Tout droit réservé.</p>
             <p>
-              Page loaded in {(Math.round(performance.now() / 1000)).toString().split('.')[0]} ms |{' '}
+              Page loaded in{' '}
+              {
+                Math.round(performance.now() / 1000)
+                  .toString()
+                  .split('.')[0]
+              }{' '}
+              ms |{' '}
               <Link href={routes.legals.mentionsLegales} className="underline">
                 Mentions légales
               </Link>
