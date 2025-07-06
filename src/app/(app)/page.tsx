@@ -6,6 +6,7 @@ import { Navbar } from '@/components/project/navbar';
 import { routes } from '@/lib/boiler-config';
 import images from '@/lib/boiler-config/images';
 
+import AvisContainer from './AvisContainer';
 import Confiance from './Confiance';
 import Features from './Features';
 import Hero from './Hero';
@@ -27,6 +28,7 @@ export default function Home(): React.JSX.Element {
       >
         <Image {...images.HOME_PORTFOLIO} className="w-[300px]" />
       </Link>
+      <AvisContainer />
       <Footer />
     </div>
   );
