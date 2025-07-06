@@ -15,6 +15,18 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: config.name,
   description: config.description,
+  openGraph: {
+    title: config.name,
+    description: config.description,
+    images: [
+      {
+        url: `${process.env.BETTER_AUTH_URL}/images/open-graph/og-default.png`,
+        width: 422,
+        height: 255,
+        alt: 'Slogan de YorzStudio',
+      },
+    ],
+  },
 };
 
 export default function RootLayout({

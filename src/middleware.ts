@@ -4,7 +4,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import auth from './lib/auth/auth';
 import { routes } from './lib/boiler-config';
 
-const publicRoutes = [routes.auth.login, routes.home, routes.portfolio, routes.contact];
+const publicRoutes = [
+  routes.auth.login,
+  routes.home,
+  routes.portfolio,
+  routes.contact,
+  routes.tarifs,
+];
 
 const isProtectedRoute = (path: string): boolean => {
   return !publicRoutes.some(route => path.toLowerCase() === route.toLowerCase());
@@ -20,7 +26,13 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
   // TODO : Enlever le commentaire si on veut vérifier les rôles avant de rediriger l'utilisateur
   // const userRoles = session?.user.role?.split(',');
 
-  if (path.startsWith('/image') || path.startsWith('/_next') || path.includes('.')) {
+  if (
+    path.startsWith('/svg') ||
+    path.startsWith('/images') ||
+    path.startsWith('/fonts') ||
+    path.startsWith('/_next') ||
+    path.includes('.')
+  ) {
     return NextResponse.next();
   }
 
