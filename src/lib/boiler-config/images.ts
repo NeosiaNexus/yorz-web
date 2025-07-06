@@ -108,6 +108,78 @@ const images: Record<string, Image> = {
     height: 619,
     alt: 'Image du renard de Yorz',
   },
+  TARIFS_ILLUSTRATION_LOGO: {
+    src: '/images/tarifs/tarif-illustration-logo.png',
+    width: 2371,
+    height: 1080,
+    alt: 'Exemple de logo',
+  },
+  TARIFS_ILLUSTRATION_ICON: {
+    src: '/images/tarifs/tarif-illustration-icon.png',
+    width: 2371,
+    height: 1080,
+    alt: "Exemple d'icon",
+  },
+  TARIFS_UI_PIXELART: {
+    src: '/images/tarifs/tarif-ui-pixelart.png',
+    width: 2371,
+    height: 1080,
+    alt: 'Exemple de pixelart',
+  },
+  TARIFS_3D_MODEL: {
+    src: '/images/tarifs/tarif-3d-model.png',
+    width: 2959,
+    height: 1290,
+    alt: 'Exemple de 3D model',
+  },
+  TARIFS_AFFICHES: {
+    src: '/images/tarifs/tarif-affiche.png',
+    width: 2371,
+    height: 1080,
+    alt: 'Exemple de affiches',
+  },
+  TARIFS_WEBSITE_DESIGN: {
+    src: '/images/tarifs/tarif-website-design.png',
+    width: 2727,
+    height: 2138,
+    alt: 'Exemple de website design',
+  },
+  TARIFS_PDP: {
+    src: '/images/tarifs/tarif-pdp.png',
+    width: 2371,
+    height: 1080,
+    alt: 'Exemple de pdp',
+  },
+  TARIFS_BANNER: {
+    src: '/images/tarifs/tarif-banner.png',
+    width: 2371,
+    height: 1080,
+    alt: 'Exemple de banner',
+  },
+  TARIFS_EMOTE: {
+    src: '/images/tarifs/tarif-emote.png',
+    width: 1948,
+    height: 1050,
+    alt: 'Exemple de emote',
+  },
+  TARIFS_CHIBI: {
+    src: '/images/tarifs/tarif-chibi.png',
+    width: 2371,
+    height: 1080,
+    alt: 'Exemple de chibi',
+  },
+  TARIFS_WALLPAPER: {
+    src: '/images/tarifs/tarif-wallpaper.png',
+    width: 2371,
+    height: 1080,
+    alt: 'Exemple de wallpaper',
+  },
+  TARIFS_MODDED: {
+    src: '/images/tarifs/tarif-modded.png',
+    width: 4096,
+    height: 1668,
+    alt: 'Exemple de modded',
+  },
 };
 
 export default images;
