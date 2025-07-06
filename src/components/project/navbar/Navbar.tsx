@@ -31,9 +31,9 @@ const NavBar = async (): Promise<React.JSX.Element> => {
   return (
     <nav className="flex flex-col gap-10 p-10">
       <div className="flex items-center justify-between">
-        <div className="w-[190px]">
+        <Link href={routes.home} className="w-[190px]">
           <Image {...images.YORZ_LOGO_LETTER} className="h-full w-full object-cover" />
-        </div>
+        </Link>
         <div className="flex items-center gap-4">
           <Link href={session?.user ? routes.profil : routes.auth.login}>
             <User size={30} color="white" />
