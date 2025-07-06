@@ -96,6 +96,18 @@ const images: Record<string, Image> = {
     height: 353,
     alt: 'Image charger plus',
   },
+  YORZ_DISCORD: {
+    src: '/images/yorz-discord.png',
+    width: 642,
+    height: 377,
+    alt: 'Image du discord de Yorz',
+  },
+  YORZ_RENARD: {
+    src: '/images/yorz-renard.png',
+    width: 619,
+    height: 619,
+    alt: 'Image du renard de Yorz',
+  },
 };
 
 export default images;
