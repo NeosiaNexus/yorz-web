@@ -14,7 +14,7 @@ import Services from './Services';
 
 export default function Home(): React.JSX.Element {
   return (
-    <div className="flex flex-col gap-30">
+    <div className="flex flex-col gap-45">
       <div>
         <Navbar />
         <Hero />
