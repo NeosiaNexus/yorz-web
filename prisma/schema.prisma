@@ -105,3 +105,23 @@ model StorageFile {
   @@index([expiresAt])
   @@map("storage_file")
 }
+
+// ----------------------------------------------------------
+
+model PortfolioCategory {
+  id          String          @id @default(cuid())
+  name        String
+  description String?
+  items       PortfolioItem[]
+
+  @@map("portfolio_category")
+}
+
+model PortfolioItem {
+  id String @id @default(cuid())
+
+  categoryId String?
+  category   PortfolioCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  @@map("portfolio_item")
+}

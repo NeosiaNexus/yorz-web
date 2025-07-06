@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import auth from './lib/auth/auth';
 import { routes } from './lib/boiler-config';
 
-const publicRoutes = [routes.auth.login, routes.home];
+const publicRoutes = [routes.auth.login, routes.home, routes.portfolio];
 
 const isProtectedRoute = (path: string): boolean => {
   return !publicRoutes.some(route => path.toLowerCase() === route.toLowerCase());

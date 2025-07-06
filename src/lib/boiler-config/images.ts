@@ -84,6 +84,18 @@ const images: Record<string, Image> = {
     height: 376,
     alt: 'Portfolio',
   },
+  PORTFOLIO_EXAMPLE: {
+    src: '/images/portfolio-example.png',
+    width: 1920,
+    height: 1080,
+    alt: 'Exemple de portfolio',
+  },
+  LOAD_MORE: {
+    src: '/images/load-more.png',
+    width: 707,
+    height: 353,
+    alt: 'Image charger plus',
+  },
 };
 
 export default images;
