@@ -44,23 +44,25 @@ const updatePortfolioItemAction = adminAction
       };
     }
 
-    try {
-      await prisma.portfolioItem.update({
-        where: {
-          id: portfolioItemId,
-        },
-        data: {
-          categoryId: categoryId ?? undefined,
-        },
-      });
-    } catch {
-      return {
-        success: false,
-        message: 'Erreur lors de la mise à jour du media en base de données',
-      };
+    if (categoryId) {
+      try {
+        await prisma.portfolioItem.update({
+          where: {
+            id: portfolioItemId,
+          },
+          data: {
+            categoryId: categoryId ?? null,
+          },
+        });
+      } catch {
+        return {
+          success: false,
+          message: 'Erreur lors de la mise à jour du media en base de données',
+        };
+      }
     }
 
-    if (media) {
+    if (media && media?.size > 0) {
       if (portfolioItem.media) {
         await removeFilesAction({
           bucket: portfolioItem.media.bucket,

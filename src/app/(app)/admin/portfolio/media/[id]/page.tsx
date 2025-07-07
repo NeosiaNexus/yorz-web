@@ -38,20 +38,15 @@ export default async function AdminPortfolioItemManagement({
       });
       return;
     } else {
-      const mediaData =
-        media.size > 0
-          ? {
-              name: media.name,
-              size: media.size,
-              type: media.type,
-              arrayBuffer: await media.arrayBuffer(),
-            }
-          : null;
-
       await updatePortfolioItemAction({
         portfolioItemId: id,
         categoryId,
-        media: mediaData,
+        media: {
+          name: media.name,
+          size: media.size,
+          type: media.type,
+          arrayBuffer: await media.arrayBuffer(),
+        },
       });
     }
   }
