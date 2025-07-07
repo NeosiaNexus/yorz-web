@@ -70,9 +70,9 @@ const updatePortfolioItemAction = adminAction
 
       const mediaUpload = await uploadFileAction({
         bucket: 'portfolio',
-        path: `items`,
+        path: portfolioItem.id,
         fileData: {
-          name: portfolioItem.id,
+          name: media.name,
           size: media.size,
           type: media.type,
           arrayBuffer: media.arrayBuffer,
