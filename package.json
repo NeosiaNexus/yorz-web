@@ -29,6 +29,7 @@
     "next": "15.4.0-canary.114",
     "next-safe-action": "^8.0.7",
     "next-zod-route": "^0.2.6",
+    "nextjs-toploader": "^3.8.16",
     "nodemailer": "^7.0.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
+import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from 'sonner';
 
 import { config } from '@/lib/boiler-config';
@@ -41,6 +42,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <Toaster richColors expand theme="dark" />
+        <NextTopLoader color={'#fff'} showSpinner={false} zIndex={10000000} />
         {children}
       </body>
     </html>
