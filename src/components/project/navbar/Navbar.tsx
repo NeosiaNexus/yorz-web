@@ -38,10 +38,6 @@ const profilLinks: { label: string; href: string }[] = [
     label: 'Profil',
     href: routes.profil.home,
   },
-  {
-    label: 'Historique',
-    href: routes.profil.historique,
-  },
 ];
 
 const adminLinks: { label: string; href: string }[] = [
@@ -51,7 +47,7 @@ const adminLinks: { label: string; href: string }[] = [
   },
   {
     label: 'Portfolio',
-    href: routes.admin.portfolio,
+    href: routes.admin.portfolio.home,
   },
   {
     label: 'Retour au site',

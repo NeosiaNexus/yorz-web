@@ -180,6 +180,12 @@ const images: Record<string, Image> = {
     height: 1668,
     alt: 'Exemple de modded',
   },
+  NO_IMG: {
+    src: '/images/no-img.png',
+    width: 360,
+    height: 360,
+    alt: 'Image non trouvée',
+  },
 };
 
 export default images;

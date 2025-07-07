@@ -2,7 +2,11 @@ const routes = {
   home: '/',
   admin: {
     home: '/admin',
-    portfolio: '/admin/portfolio',
+    portfolio: {
+      home: '/admin/portfolio',
+      item: '/admin/portfolio/item',
+    },
+    categories: '/admin/categories',
   },
   portfolio: '/portfolio',
   tarifs: '/tarifs',

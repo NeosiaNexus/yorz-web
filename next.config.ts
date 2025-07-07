@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
       {
         hostname: 'lh3.googleusercontent.com',
         protocol: 'https',
+        pathname: '/**',
       },
       {
         hostname: 'localhost',
@@ -15,6 +16,12 @@ const nextConfig: NextConfig = {
       {
         hostname: 'localhost',
         protocol: 'https',
+        pathname: '/**',
+      },
+      {
+        hostname: 'host.docker.internal',
+        protocol: 'http',
+        port: '9000',
         pathname: '/**',
       },
     ],
