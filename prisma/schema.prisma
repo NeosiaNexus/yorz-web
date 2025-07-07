@@ -97,6 +97,7 @@ model StorageFile {
   metadata    Json?
 
   portfolioItem PortfolioItem[]
+  portfolioCategory PortfolioCategory[]
 
   uploaderId String
   uploader   User   @relation(fields: [uploaderId], references: [id], onDelete: Cascade)
@@ -113,7 +114,17 @@ model StorageFile {
 model PortfolioCategory {
   id String @id @default(cuid())
 
-  name String @unique
+  title String
+  description String?
+  underDescription String?
+  price String
+  priceComplement String?
+  colorVariant String
+
+  order Int
+
+  mediaExampleId String
+  mediaExample   StorageFile @relation(fields: [mediaExampleId], references: [id], onDelete: Cascade)
 
   items PortfolioItem[]
 
