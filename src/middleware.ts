@@ -17,10 +17,6 @@ const isProtectedRoute = (path: string): boolean => {
 };
 
 export async function middleware(req: NextRequest): Promise<NextResponse> {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
   const path = req.nextUrl.pathname;
 
   // TODO : Enlever le commentaire si on veut vérifier les rôles avant de rediriger l'utilisateur
@@ -35,6 +31,10 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
   ) {
     return NextResponse.next();
   }
+
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (isProtectedRoute(path) && !session) {
     return NextResponse.redirect(
