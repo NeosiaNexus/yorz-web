@@ -43,9 +43,9 @@ const uploadPortfolioItemAction = adminAction
 
     const mediaUpload = await uploadFileAction({
       bucket: 'portfolio',
-      path: `${cuid}/items`,
+      path: `items`,
       fileData: {
-        name: media.name,
+        name: cuid,
         size: media.size,
         type: media.type,
         arrayBuffer: media.arrayBuffer,

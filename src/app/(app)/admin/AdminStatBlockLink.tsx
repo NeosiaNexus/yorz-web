@@ -33,7 +33,7 @@ const AdminStatBlockLink = ({
   return (
     <Link
       href={href}
-      className="flex h-[150px] w-[300px] items-center justify-center gap-5 rounded-3xl bg-white text-black hover:scale-105 transition-all duration-300"
+      className="flex h-[150px] w-[300px] items-center justify-center gap-5 rounded-3xl bg-white text-black transition-all duration-300 hover:scale-105"
     >
       <div className={`flex items-center justify-center rounded-full p-3 ${color}`}>{icon}</div>
       <div>
