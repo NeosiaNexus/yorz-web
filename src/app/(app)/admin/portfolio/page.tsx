@@ -12,15 +12,15 @@ export default async function AdminPortfolio(): Promise<React.JSX.Element> {
   return (
     <div className="flex justify-center gap-10 text-white">
       <AdminStatBlockLink
-        href={routes.admin.portfolio.item}
+        href={routes.admin.portfolio.media}
         icon={<Images size={40} className="text-white" />}
-        title={`Element${portfolioItems > 1 ? 's' : ''}`}
+        title={'media'}
         count={portfolioItems}
       />
       <AdminStatBlockLink
-        href={routes.admin.categories}
+        href={routes.admin.portfolio.category}
         icon={<List size={40} className="text-white" />}
-        title={`Catégorie${categories > 1 ? 's' : ''}`}
+        title={`catégorie${categories > 1 ? 's' : ''}`}
         count={categories}
         variant="red"
       />

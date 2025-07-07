@@ -1,14 +1,17 @@
 'use server';
 
 import { createId } from '@paralleldrive/cuid2';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
 import { uploadFileAction } from '@/actions/cloud-storage-file';
 import { adminAction } from '@/lib/actions';
+import { routes } from '@/lib/boiler-config';
 import prisma from '@/lib/prisma';
 
 const inputSchema = z.object({
-  categoryId: z.string(),
+  categoryId: z.string().nullable(),
   media: z.object({
     name: z.string(),
     size: z.number().positive(),
@@ -26,17 +29,19 @@ const uploadPortfolioItemAction = adminAction
   .inputSchema(inputSchema)
   .outputSchema(outputSchema)
   .action(async ({ parsedInput: { categoryId, media } }) => {
-    const portFolioCategory = await prisma.portfolioCategory.findUnique({
-      where: {
-        id: categoryId,
-      },
-    });
+    if (categoryId) {
+      const portFolioCategory = await prisma.portfolioCategory.findUnique({
+        where: {
+          id: categoryId,
+        },
+      });
 
-    if (!portFolioCategory) {
-      return {
-        success: false,
-        message: 'Catégorie non trouvée',
-      };
+      if (!portFolioCategory) {
+        return {
+          success: false,
+          message: 'Catégorie non trouvée',
+        };
+      }
     }
 
     const cuid = createId();
@@ -62,7 +67,7 @@ const uploadPortfolioItemAction = adminAction
     try {
       await prisma.portfolioItem.create({
         data: {
-          categoryId,
+          categoryId: categoryId ?? undefined,
           id: cuid,
           mediaId: mediaUpload.data?.data?.id,
         },
@@ -74,10 +79,11 @@ const uploadPortfolioItemAction = adminAction
       };
     }
 
-    return {
-      success: true,
-      message: 'Nouvel élement ajouté au portfolio avec succès',
-    };
+    revalidatePath(routes.admin.portfolio.media);
+    revalidatePath(routes.admin.portfolio.home);
+    revalidatePath(routes.portfolio);
+
+    redirect(routes.admin.portfolio.media);
   });
 
 export default uploadPortfolioItemAction;

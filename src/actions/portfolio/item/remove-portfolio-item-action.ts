@@ -35,20 +35,29 @@ const removePortfolioItemAction = adminAction
       };
     }
 
-    const res = await removeFilesAction({
-      bucket: portfolioItem.media.bucket,
-      paths: [portfolioItem.media.path],
-    });
+    if (portfolioItem.media) {
+      const res = await removeFilesAction({
+        bucket: portfolioItem.media.bucket,
+        paths: [portfolioItem.media.path],
+      });
 
-    if (!res.data?.success) {
-      return {
-        success: false,
-        message: res.data?.message ?? 'Erreur lors de la suppression du fichier',
-      };
+      if (!res.data?.success) {
+        return {
+          success: false,
+          message: res.data?.message ?? 'Erreur lors de la suppression du fichier',
+        };
+      }
     }
 
+    await prisma.portfolioItem.delete({
+      where: {
+        id: portfolioItemId,
+      },
+    });
+
     revalidatePath(routes.portfolio);
-    revalidatePath(routes.admin.portfolio);
+    revalidatePath(routes.admin.portfolio.home);
+    revalidatePath(routes.admin.portfolio.media);
 
     return {
       success: true,

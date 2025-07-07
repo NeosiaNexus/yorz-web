@@ -134,8 +134,8 @@ model PortfolioCategory {
 model PortfolioItem {
   id String @id @default(cuid())
 
-  mediaId String
-  media   StorageFile @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  mediaId String?
+  media   StorageFile? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
 
   categoryId String?
   category   PortfolioCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)

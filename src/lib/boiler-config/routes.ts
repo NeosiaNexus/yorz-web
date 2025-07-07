@@ -4,9 +4,9 @@ const routes = {
     home: '/admin',
     portfolio: {
       home: '/admin/portfolio',
-      item: '/admin/portfolio/item',
+      media: '/admin/portfolio/media',
+      category: '/admin/portfolio/categories',
     },
-    categories: '/admin/categories',
   },
   portfolio: '/portfolio',
   tarifs: '/tarifs',
