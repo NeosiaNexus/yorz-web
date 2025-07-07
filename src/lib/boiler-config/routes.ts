@@ -2,13 +2,14 @@ const routes = {
   home: '/',
   admin: {
     home: '/admin',
+    portfolio: '/admin/portfolio',
   },
   portfolio: '/portfolio',
   tarifs: '/tarifs',
   contact: '/contact',
-  profil: '/profil',
-  historique: {
-    home: '/historique',
+  profil: {
+    home: '/profil',
+    historique: '/profil/historique',
   },
   auth: {
     login: '/login',
