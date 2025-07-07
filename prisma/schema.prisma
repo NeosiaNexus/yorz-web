@@ -96,7 +96,7 @@ model StorageFile {
   description String?
   metadata    Json?
 
-  portfolioItem PortfolioItem[]
+  portfolioItem     PortfolioItem[]
   portfolioCategory PortfolioCategory[]
 
   uploaderId String
@@ -114,12 +114,12 @@ model StorageFile {
 model PortfolioCategory {
   id String @id @default(cuid())
 
-  title String
-  description String?
+  title            String
+  description      String?
   underDescription String?
-  price String
-  priceComplement String?
-  colorVariant String
+  price            String
+  priceComplement  String?
+  colorVariant     String
 
   order Int
 
