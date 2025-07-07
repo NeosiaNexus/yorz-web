@@ -12,19 +12,26 @@ const publicRoutes = [
   routes.tarifs,
 ];
 
-const isProtectedRoute = (path: string): boolean => {
-  return !publicRoutes.some(route => path.toLowerCase() === route.toLowerCase());
-};
+const uploadPaths = ['/admin/portfolio/media/create'];
+
+const safePaths = ['/image', '/_next', '/fonts', '/svg'];
+
+const isSafePath = (path: string): boolean =>
+  safePaths.some(p => path.startsWith(p)) || path.includes('.');
+
+const isProtectedRoute = (path: string): boolean =>
+  !publicRoutes.some(route => path.toLowerCase() === route.toLowerCase());
 
 export async function middleware(req: NextRequest): Promise<NextResponse> {
-  const path = req.nextUrl.pathname.toLocaleLowerCase();
+  const path = req.nextUrl.pathname.toLowerCase();
+
+  if (isSafePath(path)) {
+    return NextResponse.next();
+  }
 
   if (
-    path.startsWith('/svg') ||
-    path.startsWith('/images') ||
-    path.startsWith('/fonts') ||
-    path.startsWith('/_next') ||
-    path.includes('.')
+    (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') &&
+    uploadPaths.some(p => path.startsWith(p))
   ) {
     return NextResponse.next();
   }
@@ -33,27 +40,31 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
     headers: await headers(),
   });
 
-  const userRoles = session?.user.role?.split(',');
+  if (path.startsWith('/admin')) {
+    const userRoles = session?.user.role?.split(',') ?? [];
 
-  if (path.startsWith(routes.admin.home)) {
     if (!session) {
       return NextResponse.redirect(
         new URL(`${routes.auth.login}?returnUrl=${encodeURIComponent(path)}`, req.nextUrl),
       );
     }
 
-    if (!userRoles?.includes('admin')) {
+    if (!userRoles.includes('admin')) {
       return NextResponse.redirect(new URL(routes.home, req.nextUrl));
+    }
+
+    return NextResponse.next();
+  }
+
+  if (isProtectedRoute(path)) {
+    if (!session) {
+      return NextResponse.redirect(
+        new URL(`${routes.auth.login}?returnUrl=${encodeURIComponent(path)}`, req.nextUrl),
+      );
     }
   }
 
-  if (isProtectedRoute(path) && !session) {
-    return NextResponse.redirect(
-      new URL(`${routes.auth.login}?returnUrl=${encodeURIComponent(path)}`, req.nextUrl),
-    );
-  }
-
-  if (path.toLowerCase() === routes.auth.login && session) {
+  if (path === routes.auth.login.toLowerCase() && session) {
     return NextResponse.redirect(new URL(routes.home, req.nextUrl));
   }
 

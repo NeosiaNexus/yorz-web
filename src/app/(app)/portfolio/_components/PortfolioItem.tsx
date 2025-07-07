@@ -40,9 +40,9 @@ const PortfolioItem: React.FC<PortfolioItemProps> = async ({
       <Image
         src={media}
         alt="Portfolio Item"
-        className="h-full w-full object-cover transition-all duration-300 hover:scale-102"
-        width={2000}
-        height={2000}
+        className="h-full w-full object-contain transition-all duration-300 hover:scale-102"
+        width={4000}
+        height={4000}
         unoptimized
       />
       {hasRoleAdmin && isAdmin && (
