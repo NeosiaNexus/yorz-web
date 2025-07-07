@@ -17,7 +17,7 @@ const outputSchema = z.object({
 });
 
 export const listFilesAction = authAction
-  .schema(paramSchema)
+  .inputSchema(paramSchema)
   .outputSchema(outputSchema)
   .action(async ({ parsedInput: { bucket } }) => {
     try {

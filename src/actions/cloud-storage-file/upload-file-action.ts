@@ -35,7 +35,7 @@ const outputSchema = z.object({
 });
 
 export const uploadFileAction = authAction
-  .schema(paramSchema)
+  .inputSchema(paramSchema)
   .outputSchema(outputSchema)
   .action(async ({ parsedInput: { bucket, path, fileData }, ctx: { session } }) => {
     try {

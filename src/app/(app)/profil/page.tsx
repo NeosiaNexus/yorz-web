@@ -2,7 +2,7 @@ import { headers } from 'next/headers';
 
 import auth from '@/lib/auth/auth';
 
-import EditProfileForm from './EditProfileForm';
+import EditProfileForm from './_components/EditProfileForm';
 
 export default async function ProfilHome(): Promise<React.JSX.Element> {
   const session = await auth.api.getSession({
@@ -16,12 +16,6 @@ export default async function ProfilHome(): Promise<React.JSX.Element> {
         <p className="text-[#A6FF00]">Voici ton profil</p>
       </div>
       <EditProfileForm />
-      {/* <div>
-        <p>Commande en cours</p>
-      </div>
-      <div>
-        <p>Commande terminée</p>
-      </div> */}
     </div>
   );
 }

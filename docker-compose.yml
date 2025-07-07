@@ -1,10 +1,10 @@
 services:
   app:
-    container_name: yorzstudio-app
+    container_name: yorzstudio-app-container
     build:
       context: .
       dockerfile: Dockerfile
-    image: neosia-app
+    image: yorzstudio-app
     restart: unless-stopped
     ports:
       - '3000:3000'
@@ -20,7 +20,7 @@ services:
       NEXT_TELEMETRY_DISABLED: '1'
 
   minio:
-    container_name: yorzstudio-minio
+    container_name: yorzstudio-minio-container
     image: minio/minio:latest
     restart: unless-stopped
     environment:
@@ -39,7 +39,7 @@ services:
       retries: 5
 
   db:
-    container_name: yorzstudio-db
+    container_name: yorzstudio-db-container
     image: postgres:15-alpine
     restart: unless-stopped
     ports:
@@ -57,7 +57,7 @@ services:
       retries: 5
 
   adminer:
-    container_name: yorzstudio-adminer
+    container_name: yorzstudio-adminer-container
     image: adminer:latest
     restart: unless-stopped
     ports:

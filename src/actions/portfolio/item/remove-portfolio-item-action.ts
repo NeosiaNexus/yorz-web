@@ -1,3 +1,5 @@
+'use server';
+
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
@@ -55,8 +57,6 @@ const removePortfolioItemAction = adminAction
       },
     });
 
-    revalidatePath(routes.portfolio);
-    revalidatePath(routes.admin.portfolio.home);
     revalidatePath(routes.admin.portfolio.media);
 
     return {

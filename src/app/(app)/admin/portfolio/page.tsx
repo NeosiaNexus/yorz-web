@@ -1,9 +1,11 @@
+export const dynamic = 'force-dynamic';
+
 import { Images, List } from 'lucide-react';
 
 import { routes } from '@/lib/boiler-config';
 import prisma from '@/lib/prisma';
 
-import AdminStatBlockLink from '../AdminStatBlockLink';
+import AdminStatBlockLink from '../_components/AdminStatBlockLink';
 
 export default async function AdminPortfolio(): Promise<React.JSX.Element> {
   const portfolioItems = await (await prisma.portfolioItem.findMany()).length;

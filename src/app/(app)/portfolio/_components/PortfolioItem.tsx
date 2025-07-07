@@ -43,6 +43,7 @@ const PortfolioItem: React.FC<PortfolioItemProps> = async ({
         className="h-full w-full object-cover transition-all duration-300 hover:scale-102"
         width={2000}
         height={2000}
+        unoptimized
       />
       {hasRoleAdmin && isAdmin && (
         <div className="absolute top-3 right-3 flex flex-col gap-2">

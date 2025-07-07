@@ -18,7 +18,7 @@ const outputSchema = z.object({
 });
 
 export const removeFilesAction = authAction
-  .schema(paramSchema)
+  .inputSchema(paramSchema)
   .outputSchema(outputSchema)
   .action(async ({ parsedInput: { bucket, paths } }) => {
     if (paths.length === 0) {

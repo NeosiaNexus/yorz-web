@@ -1,11 +1,9 @@
 'use server';
 
-import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
 import { removeFilesAction, uploadFileAction } from '@/actions/cloud-storage-file';
 import { adminAction } from '@/lib/actions/middleware';
-import { routes } from '@/lib/boiler-config';
 import prisma from '@/lib/prisma';
 
 const inputSchema = z.object({
@@ -14,8 +12,8 @@ const inputSchema = z.object({
   media: z
     .object({
       name: z.string(),
-      size: z.number().positive(),
-      type: z.string().nonempty(),
+      size: z.number(),
+      type: z.string(),
       arrayBuffer: z.instanceof(ArrayBuffer),
     })
     .nullable(),
@@ -98,7 +96,10 @@ const updatePortfolioItemAction = adminAction
       });
     }
 
-    redirect(routes.admin.portfolio.media);
+    return {
+      success: true,
+      message: 'Media mis à jour avec succès',
+    };
   });
 
 export default updatePortfolioItemAction;

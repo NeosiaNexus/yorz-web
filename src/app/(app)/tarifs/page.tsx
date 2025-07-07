@@ -1,6 +1,6 @@
 import images from '@/lib/boiler-config/images';
 
-import TarifItem from './TarifItem';
+import TarifItem from './_components/TarifItem';
 
 export default async function Tarifs(): Promise<React.JSX.Element> {
   return (

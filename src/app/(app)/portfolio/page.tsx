@@ -1,10 +1,12 @@
+export const dynamic = 'force-dynamic';
+
 import Image from 'next/image';
 
 import images from '@/lib/boiler-config/images';
 
-import PortfolioItemsContainer from '../PortfolioItemsContainer';
+import PortfolioItemsContainer from '../_components/PortfolioItemsContainer';
 
-import PortfolioBar from './PortfolioBar';
+import PortfolioBar from './_components/PortfolioBar';
 
 export default async function Portfolio(): Promise<React.JSX.Element> {
   return (

@@ -19,7 +19,7 @@ const outputSchema = z.object({
 });
 
 const downloadFileAction = authAction
-  .schema(paramSchema)
+  .inputSchema(paramSchema)
   .outputSchema(outputSchema)
   .action(async ({ parsedInput: { bucket, path } }) => {
     if (!(await bucketExist(bucket))) {

@@ -1,21 +1,18 @@
 'use server';
 
 import { createId } from '@paralleldrive/cuid2';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
 import { uploadFileAction } from '@/actions/cloud-storage-file';
 import { adminAction } from '@/lib/actions';
-import { routes } from '@/lib/boiler-config';
 import prisma from '@/lib/prisma';
 
 const inputSchema = z.object({
   categoryId: z.string().nullable(),
   media: z.object({
     name: z.string(),
-    size: z.number().positive(),
-    type: z.string().nonempty(),
+    size: z.number(),
+    type: z.string(),
     arrayBuffer: z.instanceof(ArrayBuffer),
   }),
 });
@@ -30,16 +27,23 @@ const uploadPortfolioItemAction = adminAction
   .outputSchema(outputSchema)
   .action(async ({ parsedInput: { categoryId, media } }) => {
     if (categoryId) {
-      const portFolioCategory = await prisma.portfolioCategory.findUnique({
-        where: {
-          id: categoryId,
-        },
-      });
+      try {
+        const portFolioCategory = await prisma.portfolioCategory.findUnique({
+          where: {
+            id: categoryId,
+          },
+        });
 
-      if (!portFolioCategory) {
+        if (!portFolioCategory) {
+          return {
+            success: false,
+            message: 'Catégorie non trouvée',
+          };
+        }
+      } catch {
         return {
           success: false,
-          message: 'Catégorie non trouvée',
+          message: 'Erreur lors de la récupération de la catégorie',
         };
       }
     }
@@ -79,11 +83,10 @@ const uploadPortfolioItemAction = adminAction
       };
     }
 
-    revalidatePath(routes.admin.portfolio.media);
-    revalidatePath(routes.admin.portfolio.home);
-    revalidatePath(routes.portfolio);
-
-    redirect(routes.admin.portfolio.media);
+    return {
+      success: true,
+      message: 'Element créé avec succès',
+    };
   });
 
 export default uploadPortfolioItemAction;

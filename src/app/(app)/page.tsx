@@ -6,11 +6,11 @@ import { Navbar } from '@/components/project/navbar';
 import { routes } from '@/lib/boiler-config';
 import images from '@/lib/boiler-config/images';
 
-import AvisContainer from './AvisContainer';
-import Confiance from './Confiance';
-import Features from './Features';
-import Hero from './Hero';
-import Services from './Services';
+import AvisContainer from './_components/AvisContainer';
+import Confiance from './_components/Confiance';
+import Features from './_components/Features';
+import Hero from './_components/Hero';
+import Services from './_components/Services';
 
 export default function Home(): React.JSX.Element {
   return (

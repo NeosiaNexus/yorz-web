@@ -1,3 +1,7 @@
+export const dynamic = 'force-dynamic';
+
+import { Label } from '@radix-ui/react-label';
+
 import updatePortfolioItemAction from '@/actions/portfolio/item/update-portfolio-item-action';
 import uploadPortfolioItemAction from '@/actions/portfolio/item/upload-portfolio-item-action';
 import { Button } from '@/components/ui/button';
@@ -24,7 +28,7 @@ export default async function AdminPortfolioItemManagement({
 
     if (isCreation) {
       await uploadPortfolioItemAction({
-        categoryId,
+        categoryId: categoryId.toString().trim() === '' ? null : categoryId,
         media: {
           name: media.name,
           size: media.size,
@@ -33,23 +37,23 @@ export default async function AdminPortfolioItemManagement({
         },
       });
       return;
+    } else {
+      const mediaData =
+        media.size > 0
+          ? {
+              name: media.name,
+              size: media.size,
+              type: media.type,
+              arrayBuffer: await media.arrayBuffer(),
+            }
+          : null;
+
+      await updatePortfolioItemAction({
+        portfolioItemId: id,
+        categoryId,
+        media: mediaData,
+      });
     }
-
-    const mediaData =
-      media.size > 0
-        ? {
-            name: media.name,
-            size: media.size,
-            type: media.type,
-            arrayBuffer: await media.arrayBuffer(),
-          }
-        : null;
-
-    await updatePortfolioItemAction({
-      portfolioItemId: id,
-      categoryId,
-      media: mediaData,
-    });
   }
 
   return (
@@ -61,14 +65,26 @@ export default async function AdminPortfolioItemManagement({
         action={handleSubmit}
         className="flex w-fit flex-col gap-5 rounded-xl border-1 border-white p-5"
       >
-        <input type="file" accept="image/*,video/*" name="media" />
-        <select name="category">
-          {categories.map(category => (
-            <option key={category.id} value={category.id}>
-              {category.title}
-            </option>
-          ))}
-        </select>
+        <div className="flex flex-col gap-1">
+          <Label className="font-medium">Media</Label>
+          <input
+            type="file"
+            accept="image/*,video/*"
+            name="media"
+            className="cursor-pointer rounded-xl border-1 border-white p-2"
+          />
+        </div>
+        <div className="flex flex-col gap-1">
+          <Label className="font-medium">Catégorie</Label>
+          <select name="category" className="cursor-pointer rounded-xl border-1 border-white p-2">
+            <option value="">Sélectionner une catégorie</option>
+            {categories.map(category => (
+              <option key={category.id} value={category.id}>
+                {category.title}
+              </option>
+            ))}
+          </select>
+        </div>
         <Button className="cursor-pointer rounded-xl bg-[#00863A] hover:bg-[#00863A]/80">
           {isCreation ? 'Créer' : 'Modifier'}
         </Button>

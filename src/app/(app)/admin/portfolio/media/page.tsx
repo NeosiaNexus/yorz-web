@@ -1,7 +1,9 @@
+export const dynamic = 'force-dynamic';
+
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 
-import PortfolioItemsContainer from '@/app/(app)/PortfolioItemsContainer';
+import PortfolioItemsContainer from '@/app/(app)/_components/PortfolioItemsContainer';
 import { Button } from '@/components/ui/button';
 import { routes } from '@/lib/boiler-config';
 

@@ -19,6 +19,8 @@ COPY . .
 
 RUN bunx prisma generate
 
+RUN mkdir -p .next/cache && chmod -R 777 .next
+
 RUN bun --bun run build
 
 FROM oven/bun:1.2.13-alpine AS runner
@@ -31,6 +33,8 @@ COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/public       ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static    ./.next/static
+
+RUN mkdir -p .next/cache && chmod -R 777 .next
 
 USER bun
 

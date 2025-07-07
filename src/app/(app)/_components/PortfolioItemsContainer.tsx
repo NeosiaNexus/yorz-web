@@ -4,7 +4,7 @@ import { downloadFileAction } from '@/actions/cloud-storage-file';
 import images from '@/lib/boiler-config/images';
 import prisma from '@/lib/prisma';
 
-import PortfolioItem from './portfolio/PortfolioItem';
+import PortfolioItem from '../portfolio/_components/PortfolioItem';
 
 interface PortfolioItemsContainerProps {
   isAdmin?: boolean;
