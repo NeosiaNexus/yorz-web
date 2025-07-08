@@ -27,17 +27,19 @@ const PortfolioItemsContainer: React.FC<PortfolioItemsContainerProps> = async ({
         </div>
       )}
       {portFolioItem.map(async item => {
+        let mediaUrl = images.NO_IMG.src;
+
         const mediaDownload = await downloadFileAction({
           bucket: item.media?.bucket ?? '',
           path: item.media?.path ?? '',
         });
+
+        if (mediaDownload.data?.success) {
+          mediaUrl = mediaDownload.data.url;
+        }
+
         return (
-          <PortfolioItem
-            portfolioItem={item}
-            media={mediaDownload.data?.url ?? images.NO_IMG.src}
-            isAdmin={isAdmin}
-            key={item.id}
-          />
+          <PortfolioItem portfolioItem={item} media={mediaUrl} isAdmin={isAdmin} key={item.id} />
         );
       })}
     </div>

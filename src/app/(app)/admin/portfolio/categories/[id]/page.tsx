@@ -24,14 +24,87 @@ export default async function AdminPortfolioCategoryManagement({
       </p>
       <form
         action={handleSubmit}
-        className="flex w-fit flex-col gap-5 rounded-xl border-1 border-white p-5"
+        className="flex w-[40%] flex-col gap-5 rounded-xl border-1 border-white p-5"
       >
         <div className="flex flex-col gap-1">
-          <Label className="font-medium">Media</Label>
+          <Label className="font-medium">
+            Titre
+            <span className="cursor-help text-red-500" title="Champ obligatoire">
+              *
+            </span>
+          </Label>
+          <input
+            type="text"
+            name="title"
+            placeholder="ex: Illustration de Logo"
+            className="cursor-pointer rounded-xl border-1 border-white p-2"
+          />
+        </div>
+        <div className="flex flex-col gap-1">
+          <Label className="font-medium">Description</Label>
+          <input
+            type="text"
+            name="description"
+            placeholder="ex: Illustration de logo, qui va définir l'axe graphique de votre marque"
+            className="cursor-pointer rounded-xl border-1 border-white p-2"
+          />
+        </div>
+        <div className="flex flex-col gap-1">
+          <Label className="font-medium">Complément de description</Label>
+          <input
+            type="text"
+            name="underDescription"
+            placeholder="ex: Offert avec un icône et une bannière (tiré du logo)."
+            className="cursor-pointer rounded-xl border-1 border-white p-2"
+          />
+        </div>
+        <div className="flex flex-col gap-1">
+          <Label className="font-medium">
+            Prix
+            <span className="cursor-help text-red-500" title="Champ obligatoire">
+              *
+            </span>
+          </Label>
+          <input
+            type="text"
+            name="price"
+            placeholder="ex: 200€ à 300€"
+            className="cursor-pointer rounded-xl border-1 border-white p-2"
+          />
+        </div>
+        <div className="flex flex-col gap-1">
+          <Label className="font-medium">Complément de prix</Label>
+          <input
+            type="text"
+            name="priceComplement"
+            placeholder="ex: Commande de 150€ minimum"
+            className="cursor-pointer rounded-xl border-1 border-white p-2"
+          />
+        </div>
+        <div className="flex flex-col gap-1">
+          <Label className="font-medium">
+            Couleur
+            <span className="cursor-help text-red-500" title="Champ obligatoire">
+              *
+            </span>
+          </Label>
+          <select
+            name="colorVariant"
+            className="bg-yorz-dark cursor-pointer rounded-xl border-1 border-white p-2"
+          >
+            <option value="blue" selected>
+              Bleu
+            </option>
+            <option value="green">Vert</option>
+            <option value="red">Rouge</option>
+          </select>
+        </div>
+        <div className="flex flex-col gap-1">
+          <Label className="font-medium">Image d&apos;exemple</Label>
           <input
             type="file"
             accept="image/*,video/*"
-            name="media"
+            name="mediaExample"
             className="cursor-pointer rounded-xl border-1 border-white p-2"
           />
         </div>

@@ -12,9 +12,9 @@ const publicRoutes = [
   routes.tarifs,
 ];
 
-const uploadPaths = ['/admin/portfolio/media/create'];
+const uploadPaths = ['/admin/portfolio/media/create', '/admin/portfolio/categories/create'];
 
-const safePaths = ['/image', '/_next', '/fonts', '/svg'];
+const safePaths = ['/images', '/_next', '/fonts', '/svg', '/image'];
 
 const isSafePath = (path: string): boolean =>
   safePaths.some(p => path.startsWith(p)) || path.includes('.');
@@ -73,5 +73,5 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
 
 export const config = {
   runtime: 'nodejs',
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|images/).*)'],
 };

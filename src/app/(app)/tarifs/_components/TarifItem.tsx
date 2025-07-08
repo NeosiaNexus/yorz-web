@@ -2,18 +2,17 @@ import React from 'react';
 
 import Image from 'next/image';
 
-import images from '@/lib/boiler-config/images';
 import { cn } from '@/lib/utils';
 
 type TarifItemColorVariant = 'green' | 'red' | 'blue';
 
 interface TarifItemProps {
-  image: typeof images.YORZ_RENARD;
+  image: string;
   title: string;
-  description?: string;
-  underDescription?: string;
+  description?: string | null;
+  underDescription?: string | null;
   price: string;
-  priceComplement?: string;
+  priceComplement?: string | null;
   colorVariant: TarifItemColorVariant;
   reverse?: boolean;
 }
@@ -40,11 +39,13 @@ const TarifItem: React.FC<TarifItemProps> = ({
     >
       <div className="flex-1">
         <Image
-          {...image}
+          src={image}
+          alt={`${title} - ${description}`}
           className={cn(
             'w-[600px] transition-all duration-300 hover:scale-105',
             !reverse && 'justify-self-end',
           )}
+          unoptimized
         />
       </div>
       <div

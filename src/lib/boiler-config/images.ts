@@ -181,7 +181,7 @@ const images: Record<string, Image> = {
     alt: 'Exemple de modded',
   },
   NO_IMG: {
-    src: '/images/no-img.png',
+    src: '/images/no-img.jpg',
     width: 360,
     height: 360,
     alt: 'Image non trouvée',
