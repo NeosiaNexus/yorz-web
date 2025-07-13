@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import removePortfolioItemAction from '@/actions/portfolio/item/remove-portfolio-item-action';
+import serverToast from '@/actions/toast/server-toast-action';
 import auth from '@/lib/auth/auth';
 import { routes } from '@/lib/boiler-config';
 
@@ -30,9 +31,13 @@ const PortfolioItem: React.FC<PortfolioItemProps> = async ({
   async function handleRemovePortfolioItem(formData: FormData): Promise<void> {
     'use server';
     const portfolioItemId = formData.get('portfolioItemId') as string;
-    await removePortfolioItemAction({
+    const res = await removePortfolioItemAction({
       portfolioItemId,
     });
+
+    if (res.data?.message) {
+      serverToast(res.data.message, res.data.success ? 'success' : 'error');
+    }
   }
 
   return (

@@ -33,7 +33,7 @@ const removePortfolioItemAction = adminAction
     if (!portfolioItem) {
       return {
         success: false,
-        message: 'Item non trouvé',
+        message: 'Elément de portfolio non trouvé',
       };
     }
 
@@ -51,17 +51,24 @@ const removePortfolioItemAction = adminAction
       }
     }
 
-    await prisma.portfolioItem.delete({
-      where: {
-        id: portfolioItemId,
-      },
-    });
+    try {
+      await prisma.portfolioItem.delete({
+        where: {
+          id: portfolioItemId,
+        },
+      });
+    } catch {
+      return {
+        success: false,
+        message: "Erreur lors de la suppression dans la base de données de l'élément du portfolio",
+      };
+    }
 
     revalidatePath(routes.admin.portfolio.media);
 
     return {
       success: true,
-      message: 'Item supprimé avec succès',
+      message: 'Elément de portfolio supprimé avec succès',
     };
   });
 

@@ -37,13 +37,14 @@ export default async function AdminPortfolioItemManagement({
           arrayBuffer: await media.arrayBuffer(),
         },
       });
-      await serverToast(
-        res.data?.message ?? 'Une erreur est survenue',
-        res.data?.success ? 'success' : 'error',
-      );
+
+      if (res.data?.message) {
+        serverToast(res.data.message, res.data.success ? 'success' : 'error');
+      }
+
       return;
     } else {
-      await updatePortfolioItemAction({
+      const res = await updatePortfolioItemAction({
         portfolioItemId: id,
         categoryId,
         media: {
@@ -53,6 +54,10 @@ export default async function AdminPortfolioItemManagement({
           arrayBuffer: await media.arrayBuffer(),
         },
       });
+
+      if (res.data?.message) {
+        serverToast(res.data.message, res.data.success ? 'success' : 'error');
+      }
     }
   }
 

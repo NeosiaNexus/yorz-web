@@ -88,7 +88,8 @@ const uploadPortfolioItemAction = adminAction
         Sentry.captureException(error);
         return {
           success: false,
-          message: "Erreur lors de la création de l'élément dans le portfolio",
+          message:
+            "Une erreur est survenue lors du lien de l'élément du portfolio avec la catégorie",
         };
       }
 

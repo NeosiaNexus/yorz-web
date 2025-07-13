@@ -40,7 +40,7 @@ const updatePortfolioItemAction = adminAction
     if (!portfolioItem) {
       return {
         success: false,
-        message: 'Media non trouvé',
+        message: 'Elément du portfolio non trouvé',
       };
     }
 
@@ -57,7 +57,7 @@ const updatePortfolioItemAction = adminAction
       } catch {
         return {
           success: false,
-          message: 'Erreur lors de la mise à jour du media en base de données',
+          message: 'Erreur lors de la mise à jour de la catégorie en base de données',
         };
       }
     }
@@ -101,7 +101,7 @@ const updatePortfolioItemAction = adminAction
 
     return {
       success: true,
-      message: 'Media mis à jour avec succès',
+      message: 'Elément du portfolio mis à jour avec succès',
     };
   });
 
