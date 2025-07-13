@@ -25,7 +25,7 @@ const PortfolioItemsContainer: React.FC<PortfolioItemsContainerProps> = async ({
           <p className="text-center text-2xl font-bold">Aucun media dans le portfolio...</p>
         </div>
       )}
-      {portFolioItem.map(async item => {
+      {portFolioItem.map(item => {
         return (
           <PortfolioItem
             portfolioItem={item}

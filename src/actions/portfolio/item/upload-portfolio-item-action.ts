@@ -63,6 +63,7 @@ const uploadPortfolioItemAction = adminAction
         bucket: 'portfolio',
         path: cuid,
         fileData: media,
+        isPublic: true,
       });
 
       if (!mediaUpload.data?.success) {
