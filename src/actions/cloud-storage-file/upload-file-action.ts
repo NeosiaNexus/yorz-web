@@ -68,9 +68,8 @@ export const uploadFileAction = authAction
     }
 
     let publicUrl: string | null = null;
-
     if (isPublic) {
-      publicUrl = `${process.env.MINIO_CLOUD_URL}:9000/${bucket}/${objectKey}`;
+      publicUrl = `${process.env.MINIO_CLOUD_URL}/${bucket}/${objectKey}`;
     }
 
     let record;
