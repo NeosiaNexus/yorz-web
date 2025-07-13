@@ -35,7 +35,7 @@ const ClientToasts = ({ toasts }: { toasts: Toast[] }): React.JSX.Element | null
           id: toast.id,
           onDismiss: () => startTransition(toast.dismiss),
           onAutoClose: () => startTransition(toast.dismiss),
-          position: 'top-right',
+          position: 'bottom-right',
         });
       });
   }, [localToasts, sentToSonner]);
