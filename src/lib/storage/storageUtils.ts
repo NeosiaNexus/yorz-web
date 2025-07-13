@@ -2,13 +2,19 @@ import signingClient from './signingClient';
 import storage from './storage';
 
 export async function getBucketOrCreate(bucketName: string, isPublic = false): Promise<void> {
-  const exists = await storage.bucketExists(bucketName);
-  if (!exists) {
-    await storage.makeBucket(bucketName, process.env.MINIO_REGION);
+  try {
+    const exists = await storage.bucketExists(bucketName);
+    if (!exists) {
+      await storage.makeBucket(bucketName, process.env.MINIO_REGION);
 
-    if (isPublic) {
-      await storage.setBucketPolicy(bucketName, getPublicReadPolicy(bucketName));
+      if (isPublic) {
+        await storage.setBucketPolicy(bucketName, getPublicReadPolicy(bucketName));
+      }
     }
+  } catch (error) {
+    throw new Error(
+      `Échec lors de la création ou configuration du bucket ${bucketName}: ${String((error as Error)?.message || error)}`,
+    );
   }
 }
 
