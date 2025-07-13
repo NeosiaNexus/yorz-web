@@ -12,7 +12,7 @@ const publicRoutes = [
   routes.tarifs,
 ];
 
-const uploadPaths = ['/admin/portfolio/media/create', '/admin/portfolio/categories/create'];
+const uploadPaths = ['/admin/portfolio/media/', '/admin/portfolio/categories/'];
 
 const safePaths = ['/images', '/_next', '/fonts', '/svg', '/image'];
 
