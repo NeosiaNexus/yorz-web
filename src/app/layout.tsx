@@ -1,8 +1,11 @@
+import { Suspense } from 'react';
+
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from 'sonner';
 
+import ServerToaster from '@/components/project/toaster/ServerToaster';
 import { config } from '@/lib/boiler-config';
 
 import './globals.css';
@@ -42,6 +45,9 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <Toaster richColors expand theme="dark" />
+        <Suspense>
+          <ServerToaster />
+        </Suspense>
         <NextTopLoader color={'#fff'} showSpinner={false} zIndex={10000000} />
         {children}
       </body>

@@ -4,6 +4,7 @@ import { Label } from '@radix-ui/react-label';
 
 import updatePortfolioItemAction from '@/actions/portfolio/item/update-portfolio-item-action';
 import uploadPortfolioItemAction from '@/actions/portfolio/item/upload-portfolio-item-action';
+import serverToast from '@/actions/toast/server-toast-action';
 import { Button } from '@/components/ui/button';
 import prisma from '@/lib/prisma';
 
@@ -27,7 +28,7 @@ export default async function AdminPortfolioItemManagement({
     const categoryId = formData.get('category') as string;
 
     if (isCreation) {
-      await uploadPortfolioItemAction({
+      const res = await uploadPortfolioItemAction({
         categoryId: categoryId.toString().trim() === '' ? null : categoryId,
         media: {
           name: media.name,
@@ -36,6 +37,10 @@ export default async function AdminPortfolioItemManagement({
           arrayBuffer: await media.arrayBuffer(),
         },
       });
+      await serverToast(
+        res.data?.message ?? 'Une erreur est survenue',
+        res.data?.success ? 'success' : 'error',
+      );
       return;
     } else {
       await updatePortfolioItemAction({
