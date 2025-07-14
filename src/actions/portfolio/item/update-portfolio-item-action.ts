@@ -4,6 +4,7 @@ import { z } from 'zod';
 
 import { removeFilesAction, uploadFileAction } from '@/actions/cloud-storage-file';
 import { adminAction } from '@/lib/actions/middleware';
+import { parseZodErrors } from '@/lib/actions/parse-zod-errors';
 import prisma from '@/lib/prisma';
 
 const inputSchema = z.object({
@@ -81,6 +82,15 @@ const updatePortfolioItemAction = adminAction
           arrayBuffer: media.arrayBuffer,
         },
       });
+
+      const validationErrors = parseZodErrors(mediaUpload.validationErrors || {});
+
+      if (validationErrors.length > 0) {
+        return {
+          success: false,
+          message: validationErrors[0].message,
+        };
+      }
 
       if (!mediaUpload.data?.success) {
         return {
