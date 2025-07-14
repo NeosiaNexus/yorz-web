@@ -50,24 +50,27 @@ const AvisContainer = (): React.JSX.Element => {
         <button onClick={handlePreviousAvis} aria-label="Aller à l'avis précédent">
           <ChevronLeft />
         </button>
-        <AvisItem {...currentAvis} />
+        <div role="tabpanel" aria-labelledby={`tabs-${currentAvisIndex}`}>
+          <AvisItem {...currentAvis} />
+        </div>
+
         <button onClick={handleNextAvis} aria-label="Aller à l'avis suivant">
           <ChevronRight />
         </button>
       </div>
-      <div className="mt-10 flex justify-center gap-2 text-center">
+      <div className="mt-10 flex justify-center gap-2 text-center" role="tablist">
         {avis.map((_, index) => (
           <button
             key={index}
             onClick={() => handleGoToAvis(index)}
             className={cn(
-              'h-[8px] w-[30px] rounded-full bg-white',
+              'h-[8px] w-[30px] cursor-pointer rounded-full bg-white',
               currentAvisIndex === index && 'bg-linear-to-r from-[#A6FF00] to-[#EAFF00]',
             )}
             aria-label={`Aller à l'avis ${index + 1}`}
             aria-current={currentAvisIndex === index}
             role="tab"
-            tabIndex={index}
+            tabIndex={0}
           />
         ))}
       </div>

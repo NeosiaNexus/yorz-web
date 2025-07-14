@@ -16,22 +16,24 @@ const poppins = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
 });
 
-export const metadata: Metadata = {
-  title: config.name,
-  description: config.description,
-  openGraph: {
+export async function generateMetadata(): Promise<Metadata> {
+  return {
     title: config.name,
     description: config.description,
-    images: [
-      {
-        url: `${process.env.BETTER_AUTH_URL}/images/open-graph/og-default.png`,
-        width: 422,
-        height: 255,
-        alt: 'Slogan de YorzStudio',
-      },
-    ],
-  },
-};
+    openGraph: {
+      title: config.name,
+      description: config.description,
+      images: [
+        {
+          url: `${process.env.BETTER_AUTH_URL}/images/open-graph/og-default.png`,
+          width: 422,
+          height: 255,
+          alt: 'Slogan de YorzStudio',
+        },
+      ],
+    },
+  };
+}
 
 export default function RootLayout({
   children,
