@@ -8,16 +8,16 @@ import { getBucketOrCreate, storage } from '@/lib/storage';
 import { pathSchema } from '@/schemas/common-schema';
 
 const paramSchema = z.object({
-  bucket: z.string().min(1),
+  bucket: z.string().min(1, 'Le nom du bucket est requis'),
   path: pathSchema,
   isPublic: z.boolean().optional().default(false),
   fileData: z.object({
     name: z
       .string()
-      .min(1)
-      .regex(/^[^\\/]+$/, 'Nom invalide'),
+      .min(1, 'Le nom du fichier est requis')
+      .regex(/^[^\\/]+$/, 'Le nom du fichier est invalide'),
     size: z.number().positive(),
-    type: z.string().nonempty(),
+    type: z.string().nonempty('Le type du fichier est requis'),
     arrayBuffer: z.instanceof(ArrayBuffer),
   }),
 });
