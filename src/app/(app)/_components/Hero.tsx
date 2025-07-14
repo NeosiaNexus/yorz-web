@@ -25,7 +25,12 @@ const Hero = async (): Promise<React.JSX.Element> => {
   return (
     <div className="flex flex-col gap-5 px-10">
       <div className="flex flex-col items-center justify-center gap-5">
-        <Image {...images.DONNEZ_VIE_LOGO} />
+        <Image
+          {...images.DONNEZ_VIE_LOGO}
+          width={images.DONNEZ_VIE_LOGO.width}
+          height={images.DONNEZ_VIE_LOGO.height}
+          alt={images.DONNEZ_VIE_LOGO.alt}
+        />
         <div className="flex gap-4">
           {socials.map((social, index) => (
             <Link
