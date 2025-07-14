@@ -47,11 +47,11 @@ const AvisContainer = (): React.JSX.Element => {
   return (
     <div className="flex w-fit flex-col justify-center self-center text-white">
       <div className="flex gap-10 text-white">
-        <button onClick={handlePreviousAvis}>
+        <button onClick={handlePreviousAvis} aria-label="Aller à l'avis précédent">
           <ChevronLeft />
         </button>
         <AvisItem {...currentAvis} />
-        <button onClick={handleNextAvis}>
+        <button onClick={handleNextAvis} aria-label="Aller à l'avis suivant">
           <ChevronRight />
         </button>
       </div>
@@ -64,6 +64,10 @@ const AvisContainer = (): React.JSX.Element => {
               'h-[8px] w-[30px] rounded-full bg-white',
               currentAvisIndex === index && 'bg-linear-to-r from-[#A6FF00] to-[#EAFF00]',
             )}
+            aria-label={`Aller à l'avis ${index + 1}`}
+            aria-current={currentAvisIndex === index}
+            role="tab"
+            tabIndex={index}
           />
         ))}
       </div>

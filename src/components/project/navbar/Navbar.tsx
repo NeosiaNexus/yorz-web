@@ -66,7 +66,11 @@ const NavBar: React.FC<NavbarProps> = ({ variant = 'default' }): React.JSX.Eleme
           <Image {...images.YORZ_LOGO_LETTER} className="h-full w-full object-cover" />
         </Link>
         <div className="flex items-center gap-4">
-          <Link href={session?.user ? routes.profil.home : routes.auth.login}>
+          <Link
+            href={session?.user ? routes.profil.home : routes.auth.login}
+            aria-label="Accéder à mon profil"
+            aria-current={pathname.startsWith(routes.profil.home)}
+          >
             <User size={30} color="white" />
           </Link>
           <div className="w-10">
