@@ -1,6 +1,5 @@
 'use server';
 
-import * as Sentry from '@sentry/nextjs';
 import { z } from 'zod';
 
 import { authAction } from '@/lib/actions';
@@ -40,88 +39,65 @@ export const uploadFileAction = authAction
   .outputSchema(outputSchema)
   .action(async ({ parsedInput: { bucket, path, fileData, isPublic }, ctx: { session } }) => {
     try {
-      Sentry.setUser({ id: session.user.id });
-      Sentry.setTag('action', 'uploadFileAction');
-      Sentry.setContext('fileMeta', {
-        bucket,
-        path,
-        name: fileData.name,
-        size: fileData.size,
-        type: fileData.type,
-        isPublic,
-      });
-
-      try {
-        await getBucketOrCreate(bucket, isPublic);
-      } catch (error) {
-        Sentry.captureException(error);
-        return {
-          message: 'Le bucket n’existe pas et n’a pas pu être créé',
-          success: false,
-          data: null,
-        };
-      }
-
-      const ext = fileData.name.split('.').pop()!;
-      const base = fileData.name.replace(new RegExp(`\\.${ext}$`), '');
-      const objectKey = `${path}/${base}.${ext}`;
-      const buffer = Buffer.from(fileData.arrayBuffer);
-
-      try {
-        await storage.putObject(bucket, objectKey, buffer, buffer.length, {
-          'Content-Type': fileData.type,
-        });
-      } catch (error) {
-        Sentry.captureException(error);
-        return {
-          message: 'Une erreur est survenue lors de l’upload du fichier',
-          success: false,
-          data: null,
-        };
-      }
-
-      const publicUrl = isPublic ? `${process.env.MINIO_CLOUD_URL}/${bucket}/${objectKey}` : null;
-
-      let record;
-      try {
-        record = await prisma.storageFile.create({
-          data: {
-            bucket,
-            path: objectKey,
-            publicUrl,
-            isPublic,
-            fileName: fileData.name,
-            size: fileData.size,
-            type: fileData.type,
-            uploaderId: session.user.id,
-          },
-        });
-      } catch (error) {
-        Sentry.captureException(error);
-        return {
-          message: 'Une erreur est survenue lors de la création du fichier en base',
-          success: false,
-          data: null,
-        };
-      }
-
+      await getBucketOrCreate(bucket, isPublic);
+    } catch {
       return {
-        message: 'Le fichier a été uploadé avec succès',
-        success: true,
-        data: {
-          id: record.id,
-          path: record.path,
-          publicUrl: record.publicUrl,
-        },
-      };
-    } catch (error) {
-      const eventId = Sentry.captureException(error);
-      return {
-        message: `Erreur inattendue lors de l'upload (réf. ${eventId})`,
+        message: 'Le bucket n’existe pas et n’a pas pu être créé',
         success: false,
         data: null,
       };
     }
+
+    const ext = fileData.name.split('.').pop()!;
+    const base = fileData.name.replace(new RegExp(`\\.${ext}$`), '');
+    const objectKey = `${path}/${base}.${ext}`;
+    const buffer = Buffer.from(fileData.arrayBuffer);
+
+    try {
+      await storage.putObject(bucket, objectKey, buffer, buffer.length, {
+        'Content-Type': fileData.type,
+      });
+    } catch {
+      return {
+        message: 'Une erreur est survenue lors de l’upload du fichier',
+        success: false,
+        data: null,
+      };
+    }
+
+    const publicUrl = isPublic ? `${process.env.MINIO_CLOUD_URL}/${bucket}/${objectKey}` : null;
+
+    let record;
+    try {
+      record = await prisma.storageFile.create({
+        data: {
+          bucket,
+          path: objectKey,
+          publicUrl,
+          isPublic,
+          fileName: fileData.name,
+          size: fileData.size,
+          type: fileData.type,
+          uploaderId: session.user.id,
+        },
+      });
+    } catch {
+      return {
+        message: 'Une erreur est survenue lors de la création du fichier en base',
+        success: false,
+        data: null,
+      };
+    }
+
+    return {
+      message: 'Le fichier a été uploadé avec succès',
+      success: true,
+      data: {
+        id: record.id,
+        path: record.path,
+        publicUrl: record.publicUrl,
+      },
+    };
   });
 
 export default uploadFileAction;
