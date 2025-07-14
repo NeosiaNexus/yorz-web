@@ -39,7 +39,10 @@ export default async function AdminPortfolioItemManagement({
       });
 
       if (res.data?.message) {
-        serverToast(res.data.message, res.data.success ? 'success' : 'error');
+        await serverToast({
+          message: res.data.message,
+          type: res.data.success ? 'success' : 'error',
+        });
       }
 
       return;
@@ -56,7 +59,10 @@ export default async function AdminPortfolioItemManagement({
       });
 
       if (res.data?.message) {
-        serverToast(res.data.message, res.data.success ? 'success' : 'error');
+        await serverToast({
+          message: res.data.message,
+          type: res.data.success ? 'success' : 'error',
+        });
       }
     }
   }
