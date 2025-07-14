@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { downloadFileAction } from '@/actions/cloud-storage-file';
 import images from '@/lib/boiler-config/images';
 import prisma from '@/lib/prisma';
 
@@ -25,14 +26,25 @@ const PortfolioItemsContainer: React.FC<PortfolioItemsContainerProps> = async ({
           <p className="text-center text-2xl font-bold">Aucun media dans le portfolio...</p>
         </div>
       )}
-      {portFolioItem.map(item => {
+      {portFolioItem.map(async item => {
+        let mediaUrl = images.NO_IMG.src;
+
+        if (item.media) {
+          if (item.media.isPublic && item.media.publicUrl) {
+            mediaUrl = item.media.publicUrl;
+          } else {
+            const downloadUrl = await downloadFileAction({
+              bucket: item.media.bucket,
+              path: item.media.path,
+            });
+
+            if (downloadUrl.data?.success) {
+              mediaUrl = downloadUrl.data?.url;
+            }
+          }
+        }
         return (
-          <PortfolioItem
-            portfolioItem={item}
-            media={item.media?.publicUrl ?? images.NO_IMG.src}
-            isAdmin={isAdmin}
-            key={item.id}
-          />
+          <PortfolioItem portfolioItem={item} media={mediaUrl} isAdmin={isAdmin} key={item.id} />
         );
       })}
     </div>

@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic';
 
+import { downloadFileAction } from '@/actions/cloud-storage-file';
 import images from '@/lib/boiler-config/images';
 import prisma from '@/lib/prisma';
 
@@ -27,9 +28,26 @@ export default async function Tarifs(): Promise<React.JSX.Element> {
           </p>
         )}
         {categories.map(async category => {
+          let mediaUrl = images.NO_IMG.src;
+
+          if (category.mediaExample) {
+            if (category.mediaExample.isPublic && category.mediaExample.publicUrl) {
+              mediaUrl = category.mediaExample.publicUrl;
+            } else {
+              const downloadUrl = await downloadFileAction({
+                bucket: category.mediaExample.bucket,
+                path: category.mediaExample.path,
+              });
+
+              if (downloadUrl.data?.success) {
+                mediaUrl = downloadUrl.data?.url;
+              }
+            }
+          }
+
           return (
             <TarifItem
-              image={category.mediaExample.publicUrl ?? images.NO_IMG.src}
+              image={mediaUrl}
               title={category.title}
               description={category.description}
               underDescription={category.underDescription}
