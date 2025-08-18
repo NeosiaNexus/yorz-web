@@ -1,16 +1,21 @@
 import React from 'react';
 
-import { PortfolioCategory } from '@prisma/client';
+import { PortfolioCategory, StorageFile } from '@prisma/client';
 import { Pencil, Trash } from 'lucide-react';
+import { revalidatePath } from 'next/cache';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import removePortfolioCategorieAction from '@/actions/portfolio/categories/remove-portfolio-categorie-action';
 import hasRoleAPI from '@/lib/auth/utils/hasRoleAPI';
 import { routes } from '@/lib/boiler-config';
+import images from '@/lib/boiler-config/images';
 import { cn } from '@/lib/utils';
 
 interface TarifItemProps {
-  tarifItem: PortfolioCategory;
+  tarifItem: PortfolioCategory & {
+    mediaExample: StorageFile | null;
+  };
   media: string;
   reverse?: boolean;
   isAdmin?: boolean;
@@ -18,7 +23,6 @@ interface TarifItemProps {
 
 const TarifItem: React.FC<TarifItemProps> = async ({
   tarifItem,
-  media,
   reverse = false,
   isAdmin = false,
 }) => {
@@ -42,8 +46,18 @@ const TarifItem: React.FC<TarifItemProps> = async ({
           >
             <Pencil />
           </Link>
-          <form>
-            <input type="hidden" name="tarifItemId" />
+          <form
+            action={async () => {
+              'use server';
+
+              await removePortfolioCategorieAction({
+                portfolioCategoryId: tarifItem.id,
+              });
+
+              revalidatePath(routes.admin.portfolio.category);
+            }}
+          >
+            <input type="hidden" name="portfolioCategoryId" value={tarifItem.id} />
             <button className="cursor-pointer rounded-full bg-red-500 p-2 text-white transition-all duration-300 hover:scale-110">
               <Trash />
             </button>
@@ -52,12 +66,12 @@ const TarifItem: React.FC<TarifItemProps> = async ({
       )}
       <div className="flex-1">
         <Image
-          src={media}
+          src={tarifItem.mediaExample?.publicUrl ?? images.NO_IMG.src}
           width={600}
-          height={600}
+          height={400}
           alt={`${tarifItem.title} - ${tarifItem.description}`}
           className={cn(
-            'w-[600px] transition-all duration-300 hover:scale-105',
+            'h-[400px] w-[600px] overflow-hidden object-contain object-center transition-all duration-300 hover:scale-105',
             !reverse && 'justify-self-end',
           )}
           unoptimized
