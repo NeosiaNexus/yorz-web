@@ -1,3 +1,4 @@
+import { createId } from '@paralleldrive/cuid2';
 import { PortfolioCategory } from '@prisma/client';
 import { Label } from '@radix-ui/react-label';
 import { redirect } from 'next/navigation';
@@ -44,7 +45,7 @@ export default async function AdminPortfolioCategoryManagement({
       priceComplement: data.priceComplement as string,
       colorVariant: data.colorVariant as 'blue' | 'green' | 'red',
       mediaExample: {
-        name: mediaExample.name,
+        name: mediaExample.name || `media-${createId}`,
         type: mediaExample.type,
         size: mediaExample.size,
         arrayBuffer: await mediaExample.arrayBuffer(),
