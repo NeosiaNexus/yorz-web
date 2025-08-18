@@ -24,6 +24,11 @@ const nextConfig: NextConfig = {
         port: '9000',
         pathname: '/**',
       },
+      {
+        hostname: 'yorz-cloud.devwave.fr',
+        protocol: 'https',
+        pathname: '/**',
+      },
     ],
   },
   output: 'standalone',
