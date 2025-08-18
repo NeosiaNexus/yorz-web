@@ -2,7 +2,7 @@ import { PortfolioCategory } from '@prisma/client';
 import { Label } from '@radix-ui/react-label';
 import { redirect } from 'next/navigation';
 
-import createPortfolioCategorieAction from '@/actions/portfolio/item/create-portfolio-categorie-action';
+import createPortfolioCategorieAction from '@/actions/portfolio/categories/create-portfolio-categorie-action';
 import serverToast from '@/actions/toast/server-toast-action';
 import { Button } from '@/components/ui/button';
 import { parseZodErrors } from '@/lib/actions/parse-zod-errors';
