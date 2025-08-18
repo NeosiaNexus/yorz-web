@@ -121,10 +121,10 @@ model PortfolioCategory {
   priceComplement  String?
   colorVariant     String
 
-  order Int
+  order Int @default(autoincrement())
 
-  mediaExampleId String
-  mediaExample   StorageFile @relation(fields: [mediaExampleId], references: [id], onDelete: Cascade)
+  mediaExampleId String?
+  mediaExample   StorageFile? @relation(fields: [mediaExampleId], references: [id], onDelete: SetNull)
 
   items PortfolioItem[]
 
