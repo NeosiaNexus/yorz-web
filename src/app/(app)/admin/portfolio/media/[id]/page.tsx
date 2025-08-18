@@ -1,11 +1,14 @@
 export const dynamic = 'force-dynamic';
 
+import { PortfolioItem } from '@prisma/client';
 import { Label } from '@radix-ui/react-label';
+import { redirect } from 'next/navigation';
 
 import updatePortfolioItemAction from '@/actions/portfolio/item/update-portfolio-item-action';
 import uploadPortfolioItemAction from '@/actions/portfolio/item/upload-portfolio-item-action';
 import serverToast from '@/actions/toast/server-toast-action';
 import { Button } from '@/components/ui/button';
+import { routes } from '@/lib/boiler-config';
 import prisma from '@/lib/prisma';
 
 interface Props {
@@ -18,6 +21,19 @@ export default async function AdminPortfolioItemManagement({
   const { id } = await params;
 
   const isCreation = id.toLocaleLowerCase() === 'create';
+
+  let item: PortfolioItem | null = null;
+
+  if (!isCreation) {
+    item = await prisma.portfolioItem.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        category: true,
+      },
+    });
+  }
 
   const categories = await prisma.portfolioCategory.findMany();
 
@@ -65,6 +81,8 @@ export default async function AdminPortfolioItemManagement({
         });
       }
     }
+
+    redirect(routes.admin.portfolio.media);
   }
 
   return (
@@ -87,7 +105,11 @@ export default async function AdminPortfolioItemManagement({
         </div>
         <div className="flex flex-col gap-1">
           <Label className="font-medium">Catégorie</Label>
-          <select name="category" className="cursor-pointer rounded-xl border-1 border-white p-2">
+          <select
+            name="category"
+            className="cursor-pointer rounded-xl border-1 border-white p-2"
+            defaultValue={item?.categoryId ?? ''}
+          >
             <option value="">Sélectionner une catégorie</option>
             {categories.map(category => (
               <option key={category.id} value={category.id}>

@@ -2,13 +2,12 @@ import React from 'react';
 
 import { PortfolioItem as PortfolioItemType } from '@prisma/client';
 import { Pencil, Trash } from 'lucide-react';
-import { headers } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import removePortfolioItemAction from '@/actions/portfolio/item/remove-portfolio-item-action';
 import serverToast from '@/actions/toast/server-toast-action';
-import auth from '@/lib/auth/auth';
+import hasRoleAPI from '@/lib/auth/utils/hasRoleAPI';
 import { routes } from '@/lib/boiler-config';
 
 interface PortfolioItemProps {
@@ -22,11 +21,7 @@ const PortfolioItem: React.FC<PortfolioItemProps> = async ({
   media,
   isAdmin = false,
 }) => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  const hasRoleAdmin = session?.user.role?.toLocaleLowerCase().split(',').includes('admin');
+  const hasRoleAdmin = await hasRoleAPI('admin');
 
   async function handleRemovePortfolioItem(formData: FormData): Promise<void> {
     'use server';

@@ -8,8 +8,8 @@ import prisma from '@/lib/prisma';
 import AdminStatBlockLink from '../_components/AdminStatBlockLink';
 
 export default async function AdminPortfolio(): Promise<React.JSX.Element> {
-  const portfolioItems = await (await prisma.portfolioItem.findMany()).length;
-  const categories = await (await prisma.portfolioCategory.findMany()).length;
+  const portfolioItems = await prisma.portfolioItem.findMany();
+  const categories = await prisma.portfolioCategory.findMany();
 
   return (
     <div className="flex justify-center gap-10 text-white">
@@ -17,13 +17,13 @@ export default async function AdminPortfolio(): Promise<React.JSX.Element> {
         href={routes.admin.portfolio.media}
         icon={<Images size={40} className="text-white" />}
         title={'media'}
-        count={portfolioItems}
+        count={portfolioItems.length}
       />
       <AdminStatBlockLink
         href={routes.admin.portfolio.category}
         icon={<List size={40} className="text-white" />}
-        title={`catégorie${categories > 1 ? 's' : ''}`}
-        count={categories}
+        title={`catégorie${categories.length > 1 ? 's' : ''}`}
+        count={categories.length}
         variant="red"
       />
     </div>

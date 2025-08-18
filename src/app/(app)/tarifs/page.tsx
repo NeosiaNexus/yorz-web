@@ -27,7 +27,7 @@ export default async function Tarifs(): Promise<React.JSX.Element> {
             Aucune tarification disponible...
           </p>
         )}
-        {categories.map(async category => {
+        {categories.map(async (category, index) => {
           let mediaUrl = images.NO_IMG.src;
 
           if (category.mediaExample) {
@@ -47,20 +47,10 @@ export default async function Tarifs(): Promise<React.JSX.Element> {
 
           return (
             <TarifItem
-              image={mediaUrl}
-              title={category.title}
-              description={category.description}
-              underDescription={category.underDescription}
-              price={category.price}
-              colorVariant={
-                category.colorVariant === 'green'
-                  ? 'green'
-                  : category.colorVariant === 'red'
-                    ? 'red'
-                    : 'blue'
-              }
+              tarifItem={category}
+              media={mediaUrl}
               key={category.id}
-              reverse={category.order % 2 === 0}
+              reverse={index % 2 === 0}
             />
           );
         })}
