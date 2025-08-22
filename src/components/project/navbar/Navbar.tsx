@@ -50,6 +50,10 @@ const adminLinks: { label: string; href: string }[] = [
     href: routes.admin.portfolio.home,
   },
   {
+    label: 'Commandes',
+    href: routes.admin.orders.home,
+  },
+  {
     label: 'Retour au site',
     href: routes.home,
   },
