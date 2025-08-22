@@ -7,6 +7,9 @@ const routes = {
       media: '/admin/portfolio/media',
       category: '/admin/portfolio/categories',
     },
+    orders: {
+      home: '/admin/orders',
+    },
   },
   portfolio: '/portfolio',
   tarifs: '/tarifs',
@@ -17,7 +20,6 @@ const routes = {
   },
   auth: {
     login: '/login',
-    register: '/register',
   },
   socials: {
     instagram: '#',
