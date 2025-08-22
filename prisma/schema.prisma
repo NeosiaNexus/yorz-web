@@ -167,8 +167,8 @@ model Order {
 
   items OrderItem[]
 
-  clientId String
-  client   User   @relation("client", fields: [clientId], references: [id], onDelete: Restrict)
+  clientId String?
+  client   User?   @relation("client", fields: [clientId], references: [id], onDelete: Restrict)
 
   workerId String?
   worker   User?   @relation("worker", fields: [workerId], references: [id], onDelete: SetNull)
