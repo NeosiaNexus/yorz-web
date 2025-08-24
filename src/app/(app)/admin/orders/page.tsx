@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic';
 
+import { OrderItem, PortfolioCategory } from '@prisma/client';
 import { Check, Loader } from 'lucide-react';
 
 import prisma from '@/lib/prisma';
@@ -10,7 +11,7 @@ import CreateOrderDialog from './_components/CreateOrderDialog';
 import OrderItemRow from './_components/OrderItemRow';
 
 export default async function AdminOrders(): Promise<React.JSX.Element> {
-  const prismaOrders = await prisma.order.findMany({
+  const orders = await prisma.order.findMany({
     include: {
       category: true,
       items: true,
@@ -24,23 +25,34 @@ export default async function AdminOrders(): Promise<React.JSX.Element> {
           href={'#'}
           icon={<Loader size={40} className="text-white" />}
           title={'En cours'}
-          count={prismaOrders.filter(order => order.status === 'PENDING').length}
+          count={orders.filter(order => order.status === 'PENDING').length}
           variant="orange"
         />
         <AdminStatBlockLink
           href={'#'}
           icon={<Check size={40} className="text-white" />}
-          title={`Terminée${prismaOrders.filter(order => order.status === 'COMPLETED').length > 1 ? 's' : ''}`}
-          count={prismaOrders.filter(order => order.status === 'COMPLETED').length}
+          title={`Terminée${orders.filter(order => order.status === 'COMPLETED').length > 1 ? 's' : ''}`}
+          count={orders.filter(order => order.status === 'COMPLETED').length}
           variant="dark-green"
         />
       </div>
       <CreateOrderDialog />
-      <div className="flex flex-col gap-4">
-        {prismaOrders.map(order => (
-          <OrderItemRow key={order.id} order={order} />
-        ))}
-      </div>
+      {orders.length === 0 ? (
+        <p className="text-center text-white">Aucune commande trouvée</p>
+      ) : (
+        <div className="flex flex-col gap-4">
+          {orders.map(order => (
+            <OrderItemRow
+              key={order.id}
+              order={{
+                ...order,
+                category: order.category as PortfolioCategory,
+                items: order.items as OrderItem[],
+              }}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

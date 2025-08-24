@@ -60,7 +60,7 @@ const ConfirmDialogDeleteItem = ({ itemId }: ConfirmDialogDeleteItemProps): Reac
               Cette action est irréversible. Vous ne pourrez pas récupérer l&apos;item supprimé.
             </p>
           </div>
-          <div className="flex justify-end gap-2">
+          <div className="mt-4 flex justify-end gap-2">
             <DialogClose asChild>
               <Button variant="outline" type="button">
                 Annuler

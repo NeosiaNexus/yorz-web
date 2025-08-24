@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { routes } from '@/lib/boiler-config';
 import prisma from '@/lib/prisma';
 
-interface OrderItemRow extends OrderItem {
+interface OrderItemRow {
   order: Order & {
     category?: PortfolioCategory;
     items: OrderItem[];
@@ -47,11 +47,9 @@ const OrderItemRow: React.FC<OrderItemRow> = ({ order }) => {
         <Button type="submit" variant={'destructive'}>
           Supprimer
         </Button>
-        <Link href={`${routes.admin.orders.home}/${order.id}`}>
-          <Button type="button" className="w-full">
-            Modifier
-          </Button>
-        </Link>
+        <Button type="button" className="w-full" asChild>
+          <Link href={`${routes.admin.orders.home}/${order.id}`}>Modifier</Link>
+        </Button>
       </div>
     </form>
   );

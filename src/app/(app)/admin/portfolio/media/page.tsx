@@ -11,12 +11,12 @@ export default async function AdminPortfolioItem(): Promise<React.JSX.Element> {
   return (
     <div className="flex flex-col items-center justify-center gap-5 text-white">
       <div>
-        <Link href={`${routes.admin.portfolio.media}/create`}>
-          <Button className="cursor-pointer rounded-xl bg-[#00863A] hover:bg-[#00863A]/80">
+        <Button className="cursor-pointer rounded-xl bg-[#00863A] hover:bg-[#00863A]/80" asChild>
+          <Link href={`${routes.admin.portfolio.media}/create`}>
             <Plus size={20} />
             Ajouter un élément
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </div>
       <div>
         <p className="font-comodo py-5 text-center text-5xl text-[#FF0066]">Medias</p>
