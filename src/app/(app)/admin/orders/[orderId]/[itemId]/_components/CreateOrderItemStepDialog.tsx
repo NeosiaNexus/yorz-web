@@ -2,6 +2,7 @@ import { createId } from '@paralleldrive/cuid2';
 import { OrderStepType } from '@prisma/client';
 import { Plus } from 'lucide-react';
 import { revalidatePath } from 'next/cache';
+import { headers } from 'next/headers';
 
 import { uploadFileAction } from '@/actions/cloud-storage-file';
 import serverToast from '@/actions/toast/server-toast-action';
@@ -25,7 +26,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import auth from '@/lib/auth/auth';
 import { routes } from '@/lib/boiler-config';
+import { sendEmail } from '@/lib/emails';
 import prisma from '@/lib/prisma';
 import { getOptFile, getOptStr, getStr } from '@/lib/utils/formDataUtils';
 
@@ -42,6 +45,18 @@ const CreateOrderItemStepDialog = ({
     const description = getOptStr(formData, 'description');
     const type = getStr(formData, 'type') as OrderStepType;
     const item = getOptFile(formData, 'item');
+
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session) {
+      await serverToast({
+        type: 'error',
+        message: 'Vous devez être connecté pour publier une mise à jour',
+      });
+      return;
+    }
 
     if (!item || item.size === 0) {
       await serverToast({
@@ -72,13 +87,36 @@ const CreateOrderItemStepDialog = ({
       return;
     }
 
-    await prisma.orderStep.create({
+    const orderStep = await prisma.orderStep.create({
       data: {
         description,
         type,
         itemId: uploadItem.data.data.id,
         orderItemId,
       },
+      include: {
+        orderItem: {
+          include: {
+            order: {
+              select: {
+                id: true,
+                title: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    await sendEmail({
+      subject: 'Nouvelle mise à jour pour votre commande',
+      props: {
+        url: `${process.env.BETTER_AUTH_URL}${routes.admin.orders.home}/${orderStep.orderItem.order.id}/${orderItemId}/${orderStep.id}`,
+        orderName: orderStep.orderItem.order.title,
+        content: orderStep.description ?? 'Aucune description',
+      },
+      template: 'order-item-step',
+      to: session.user.email,
     });
 
     revalidatePath(routes.home);
