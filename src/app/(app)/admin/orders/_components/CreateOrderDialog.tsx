@@ -26,6 +26,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { routes } from '@/lib/boiler-config';
 import prisma from '@/lib/prisma';
+import { getOptDate, getOptStr, getStr } from '@/lib/utils/formDataUtils';
 
 const CreateOrderDialog = async (): Promise<React.JSX.Element> => {
   const categories = await prisma.portfolioCategory.findMany({
@@ -36,19 +37,7 @@ const CreateOrderDialog = async (): Promise<React.JSX.Element> => {
   async function handleCreateOrder(formData: FormData): Promise<void> {
     'use server';
 
-    const getStr = (name: string): string => formData.get(name)?.toString().trim() ?? '';
-    const getOptStr = (name: string): string | undefined => {
-      const v = getStr(name);
-      return v.length ? v : undefined;
-    };
-    const getOptDate = (name: string): Date | undefined => {
-      const v = getStr(name);
-      if (!v) return undefined;
-      const d = new Date(v);
-      return isNaN(d.getTime()) ? undefined : d;
-    };
-
-    const title = getStr('title');
+    const title = getStr(formData, 'title');
     if (!title) {
       await serverToast({ message: 'Le titre est obligatoire', type: 'error' });
       return;
@@ -58,9 +47,9 @@ const CreateOrderDialog = async (): Promise<React.JSX.Element> => {
       await prisma.order.create({
         data: {
           title,
-          description: getOptStr('description'),
-          categoryId: getOptStr('categoryId'),
-          estimatedDeliveryDate: getOptDate('estimatedDeliveryDate'),
+          description: getOptStr(formData, 'description'),
+          categoryId: getOptStr(formData, 'categoryId'),
+          estimatedDeliveryDate: getOptDate(formData, 'estimatedDeliveryDate'),
         },
       });
 

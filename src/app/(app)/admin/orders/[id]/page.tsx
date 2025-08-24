@@ -1,8 +1,11 @@
 import { notFound } from 'next/navigation';
 
-import Uploader from '@/components/project/uploader/Uploader';
 import prisma from '@/lib/prisma';
 import { cn } from '@/lib/utils';
+
+import CreateItemDialog from '../../portfolio/categories/_components/CreateItemDialog';
+
+import ConfirmDialogDeleteItem from './_components/ConfirmDialogDeleteItem';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -50,8 +53,27 @@ export default async function AdminOrder({ params }: Props): Promise<React.JSX.E
         </p>
         <p>Livraison (réelle): {order.deliveryDate?.toLocaleDateString() ?? 'Pas encore livré'}</p>
       </div>
-      <div className="flex-1 rounded-xl border-1 border-white bg-white p-5 text-white shadow-lg">
-        <Uploader accept={['image/png', 'image/jpeg', 'image/gif']} />
+      <div className="flex-1 rounded-xl border-1 border-white p-5">
+        <div className="justify-self-center">
+          <CreateItemDialog orderId={order.id} />
+        </div>
+        <div>
+          {order.items.length === 0 && (
+            <p className="mt-5 text-center text-xl text-gray-500/60">
+              Aucun item pour le moment...
+            </p>
+          )}
+          {order.items.length > 0 && (
+            <div className="flex flex-col gap-5">
+              {order.items.map(item => (
+                <div key={item.id} className="flex items-center gap-1 text-white">
+                  <p>{item.title}</p>
+                  <ConfirmDialogDeleteItem itemId={item.id} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
