@@ -1,16 +1,21 @@
 export const dynamic = 'force-dynamic';
 
-import { Check, Loader, Plus } from 'lucide-react';
-import Link from 'next/link';
+import { Check, Loader } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
-import { routes } from '@/lib/boiler-config';
 import prisma from '@/lib/prisma';
 
 import AdminStatBlockLink from '../_components/AdminStatBlockLink';
 
+import CreateOrderDialog from './_components/CreateOrderDialog';
+import OrderItemRow from './_components/OrderItemRow';
+
 export default async function AdminOrders(): Promise<React.JSX.Element> {
-  const prismaOrders = await prisma.order.findMany();
+  const prismaOrders = await prisma.order.findMany({
+    include: {
+      category: true,
+      items: true,
+    },
+  });
 
   return (
     <div className="flex flex-col items-center justify-center gap-10 text-white">
@@ -30,13 +35,12 @@ export default async function AdminOrders(): Promise<React.JSX.Element> {
           variant="dark-green"
         />
       </div>
-
-      <Link href={`${routes.admin.portfolio.media}/create`}>
-        <Button className="cursor-pointer rounded-xl bg-[#00863A] hover:bg-[#00863A]/80">
-          <Plus size={20} />
-          Ajouter un élément
-        </Button>
-      </Link>
+      <CreateOrderDialog />
+      <div className="flex flex-col gap-4">
+        {prismaOrders.map(order => (
+          <OrderItemRow key={order.id} order={order} />
+        ))}
+      </div>
     </div>
   );
 }

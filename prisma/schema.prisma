@@ -114,6 +114,20 @@ model StorageFile {
   @@map("storage_file")
 }
 
+model StorageFileDelete {
+  id String @id @default(cuid())
+
+  bucket String
+  path   String
+
+  createdAt   DateTime  @default(now())
+  processedAt DateTime?
+
+  @@unique([bucket, path])
+  @@index([processedAt])
+  @@map("storage_file_delete")
+}
+
 // ----------------------------------------------------------
 
 model PortfolioCategory {
