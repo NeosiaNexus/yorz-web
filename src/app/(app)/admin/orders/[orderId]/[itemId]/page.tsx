@@ -30,6 +30,9 @@ export default async function AdminOrderItem({ params }: Props): Promise<React.J
         include: {
           item: true,
         },
+        orderBy: {
+          createdAt: 'desc',
+        },
       },
     },
   });
