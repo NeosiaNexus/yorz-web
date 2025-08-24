@@ -53,8 +53,8 @@ const CreateOrderItemStepDialog = ({
     }
 
     const uploadItem = await uploadFileAction({
-      bucket: 'order-steps',
-      path: `${orderItemId}/${createId()}`,
+      bucket: 'order',
+      path: `items/${orderItemId}/steps/${createId()}`,
       fileData: {
         type: item.type,
         name: item.name,

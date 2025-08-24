@@ -1,7 +1,6 @@
 import { Trash, TriangleAlert } from 'lucide-react';
 import { revalidatePath } from 'next/cache';
 
-import { removeFilesAction } from '@/actions/cloud-storage-file';
 import serverToast from '@/actions/toast/server-toast-action';
 import { Button } from '@/components/ui/button';
 import {
@@ -52,17 +51,18 @@ const ConfirmDeleteStepDialog = ({ stepId }: ConfirmDeleteStepDialogProps): Reac
     }
 
     if (step.item) {
-      const res = await removeFilesAction({
-        bucket: step.item.bucket,
-        paths: [step.item.path],
-      });
-
-      if (!res.data?.success) {
+      try {
+        await prisma.storageFileDelete.create({
+          data: {
+            bucket: step.item.bucket,
+            path: step.item.path,
+          },
+        });
+      } catch {
         await serverToast({
           type: 'error',
           message: 'La suppression du visuel de la mise à jour a échoué',
         });
-        return;
       }
     }
 

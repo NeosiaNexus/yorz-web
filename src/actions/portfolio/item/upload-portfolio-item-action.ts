@@ -51,7 +51,7 @@ const uploadPortfolioItemAction = adminAction
 
     const mediaUpload = await uploadFileAction({
       bucket: 'portfolio',
-      path: cuid,
+      path: `items/${cuid}`,
       fileData: media,
       isPublic: true,
     });

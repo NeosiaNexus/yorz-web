@@ -3,7 +3,6 @@
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
-import { removeFilesAction } from '@/actions/cloud-storage-file';
 import { adminAction } from '@/lib/actions';
 import { routes } from '@/lib/boiler-config';
 import prisma from '@/lib/prisma';
@@ -38,15 +37,17 @@ const removePortfolioItemAction = adminAction
     }
 
     if (portfolioItem.media) {
-      const res = await removeFilesAction({
-        bucket: portfolioItem.media.bucket,
-        paths: [portfolioItem.media.path],
-      });
-
-      if (!res.data?.success) {
+      try {
+        await prisma.storageFileDelete.create({
+          data: {
+            bucket: portfolioItem.media.bucket,
+            path: portfolioItem.media.path,
+          },
+        });
+      } catch {
         return {
           success: false,
-          message: res.data?.message ?? 'Erreur lors de la suppression du fichier',
+          message: 'Erreur lors de la suppression du média en base de données',
         };
       }
     }
