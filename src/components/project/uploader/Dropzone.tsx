@@ -11,6 +11,7 @@ interface DropzoneProps {
   disabled?: boolean;
   multiple?: boolean;
   supportedText: string | null;
+  maxSize?: number;
   onOpen: () => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onDragEnter: (e: React.DragEvent) => void;
@@ -25,6 +26,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({
   disabled,
   multiple,
   supportedText,
+  maxSize,
   onOpen,
   onChange,
   onDragEnter,
@@ -59,7 +61,12 @@ export const Dropzone: React.FC<DropzoneProps> = ({
         Sélectionner {multiple ? 'des fichiers' : 'un fichier'}
       </Button>
       <p className="text-gray-200/40">Déposez {multiple ? 'vos fichiers' : 'votre fichier'} ici</p>
-      {supportedText && <p className="text-sm text-gray-500">{supportedText}</p>}
+      {(supportedText || maxSize) && (
+        <div className="text-center">
+          {supportedText && <p className="text-sm text-gray-500">{supportedText}</p>}
+          {maxSize && <p className="text-sm text-gray-500">Taille maximale: {maxSize} Mo</p>}
+        </div>
+      )}
 
       <input
         ref={pickerRef}

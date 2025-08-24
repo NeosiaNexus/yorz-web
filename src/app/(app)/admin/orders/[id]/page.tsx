@@ -51,12 +51,7 @@ export default async function AdminOrder({ params }: Props): Promise<React.JSX.E
         <p>Livraison (réelle): {order.deliveryDate?.toLocaleDateString() ?? 'Pas encore livré'}</p>
       </div>
       <div className="flex-1 rounded-xl border-1 border-white bg-white p-5 text-white shadow-lg">
-        <Uploader
-          accept={['image/png', 'image/jpeg', 'image/gif']}
-          multiple
-          maxFiles={2}
-          maxSize={1}
-        />
+        <Uploader accept={['image/png', 'image/jpeg', 'image/gif']} />
       </div>
     </div>
   );

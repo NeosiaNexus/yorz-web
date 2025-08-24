@@ -75,7 +75,7 @@ export const useUploader = ({
       let next = [...filesState, ...deduped.map(f => ({ id: createId(), file: f }))];
       if (!multiple) next = next.slice(0, Math.min(1, next.length));
       if (maxFiles && next.length > maxFiles) {
-        newErrors.push(`Nombre de fichiers maximum: ${maxFiles}.`);
+        newErrors.push(`Le nombre de fichiers maximum est de ${maxFiles}.`);
         next = next.slice(0, maxFiles);
       }
 

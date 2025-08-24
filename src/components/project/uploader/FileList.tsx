@@ -25,9 +25,8 @@ export const FileList: React.FC<FileListProps> = ({
   <div className="min-w-[500px] flex-1 rounded-lg border p-4">
     <div className="mb-2 flex items-center justify-between">
       <p className="text-xl font-bold">
-        Fichier{files.length > 1 ? 's' : ''} sélectionné{files.length > 1 ? 's' : ''} (
-        {files.length}
-        {maxFiles ? `/${maxFiles}` : ''})
+        Fichier{files.length > 1 ? 's' : ''} sélectionné{files.length > 1 ? 's' : ''}
+        {maxFiles ? ` (${files.length}/${maxFiles})` : ''}
       </p>
       {files.length > 0 && (
         <Button variant="secondary" onClick={onClear} disabled={disabled}>

@@ -79,6 +79,7 @@ const Uploader: React.FC<UploaderProps> = ({
           disabled={disabled}
           multiple={multiple}
           supportedText={supportedText}
+          maxSize={maxSize}
           onOpen={handleOpen}
           onChange={handlePickerChange}
           onDragEnter={prevent}
@@ -111,7 +112,7 @@ const Uploader: React.FC<UploaderProps> = ({
         multiple={multiple}
       />
       {errors.length > 0 && (
-        <div className="rounded-md border border-red-300 bg-red-50 p-3 text-sm text-red-700">
+        <div className="rounded-xl border border-red-300 bg-red-50 p-3 text-center text-sm text-red-700">
           {errors.map((err, i) => (
             <p key={i}>{err}</p>
           ))}
