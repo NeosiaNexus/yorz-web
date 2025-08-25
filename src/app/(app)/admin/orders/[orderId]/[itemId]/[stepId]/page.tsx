@@ -126,7 +126,7 @@ export default async function AdminOrderItemStep({ params }: Props): Promise<Rea
                   <span className="mb-1 text-sm text-gray-300">
                     {feedback.authorId === user.user.id ? 'Vous' : feedback.author.name}
                   </span>
-                  <p className="break-words">{feedback.message}</p>
+                  <p className="break-all">{feedback.message}</p>
                   <p className="text-xs text-white/50">
                     {feedback.createdAt.toDateString() !== new Date().toDateString() &&
                       'Le ' +
