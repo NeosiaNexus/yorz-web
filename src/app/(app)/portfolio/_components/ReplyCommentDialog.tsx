@@ -1,6 +1,5 @@
 import { Reply } from 'lucide-react';
 import { revalidatePath } from 'next/cache';
-import { headers } from 'next/headers';
 
 import serverToast from '@/actions/toast/server-toast-action';
 import { Button } from '@/components/ui/button';
@@ -14,10 +13,12 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
-import auth from '@/lib/auth/auth';
 import { routes } from '@/lib/boiler-config';
 import prisma from '@/lib/prisma';
 import { getStr } from '@/lib/utils/formDataUtils';
+
+import PendingFieldset from './PendingFieldset';
+import SubmitReplyButton from './SubmitReplyButton';
 
 interface ReplyCommentDialogProps {
   itemId: string;
@@ -26,24 +27,26 @@ interface ReplyCommentDialogProps {
   commentContent: string;
 }
 
-const ReplyCommentDialog = async ({
+const ReplyCommentDialog = ({
   itemId,
   commentId,
   commentUser,
   commentContent,
-}: ReplyCommentDialogProps): Promise<React.JSX.Element> => {
-  const user = await auth.api.getSession({
-    headers: await headers(),
-  });
-
+}: ReplyCommentDialogProps): React.JSX.Element => {
   async function handleReplyComment(formData: FormData): Promise<void> {
     'use server';
 
-    const message = getStr(formData, 'message');
+    const { headers } = await import('next/headers');
+    const auth = (await import('@/lib/auth/auth')).default;
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
 
-    if (!message) return;
+    const content = getStr(formData, 'message').trim();
 
-    if (!user) {
+    if (!content) return;
+
+    if (!session) {
       await serverToast({
         type: 'error',
         message: 'Vous devez être connecté pour répondre à un commentaire',
@@ -51,14 +54,28 @@ const ReplyCommentDialog = async ({
       return;
     }
 
-    await prisma.portfolioItemComment.create({
-      data: {
-        content: message,
-        itemId,
-        type: 'REPLY',
-        userId: user?.user.id,
-        parentId: commentId,
-      },
+    await prisma.$transaction(async tx => {
+      const parent = await tx.portfolioItemComment.findUnique({
+        where: { id: commentId },
+        select: { itemId: true },
+      });
+      if (!parent || parent.itemId !== itemId) {
+        await serverToast({
+          type: 'error',
+          message:
+            "Une erreur est survenue lors de la réponse au commentaire. Si le problème persiste, veuillez contacter l'administrateur.",
+        });
+        return;
+      }
+
+      await tx.portfolioItemComment.create({
+        data: { content, itemId, type: 'REPLY', userId: session.user.id, parentId: commentId },
+      });
+
+      await tx.portfolioItem.update({
+        where: { id: itemId },
+        data: { commentsCount: { increment: 1 } },
+      });
     });
 
     revalidatePath(routes.portfolio);
@@ -79,22 +96,24 @@ const ReplyCommentDialog = async ({
         </DialogHeader>
 
         <form action={handleReplyComment} className="grid gap-4">
-          <div className="grid gap-3">
-            <Textarea
-              id="message"
-              name="message"
-              rows={4}
-              placeholder={`Merci pour ton avis ${commentUser} !`}
-            />
-          </div>
-          <div className="flex justify-end gap-2">
-            <DialogClose asChild>
-              <Button variant="outline" type="button">
-                Annuler
-              </Button>
-            </DialogClose>
-            <Button type="submit">Répondre</Button>
-          </div>
+          <PendingFieldset>
+            <div className="grid gap-3">
+              <Textarea
+                id="message"
+                name="message"
+                rows={4}
+                placeholder={`Merci pour ton avis ${commentUser} !`}
+              />
+            </div>
+            <div className="flex justify-end gap-2 pt-2">
+              <DialogClose asChild>
+                <Button variant="outline" type="button">
+                  Annuler
+                </Button>
+              </DialogClose>
+              <SubmitReplyButton />
+            </div>
+          </PendingFieldset>
         </form>
       </DialogContent>
     </Dialog>
