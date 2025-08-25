@@ -125,18 +125,25 @@ const PortfolioItem: React.FC<PortfolioItemProps> = async ({
 
   return (
     <div className="relative aspect-square">
-      <div className="absolute top-1 right-1 z-10 flex flex-col items-center justify-center">
-        <form action={handleLikePortfolioItem}>
-          <input type="hidden" name="portfolioItemId" value={portfolioItem.id} />
-          <button
-            type="submit"
-            className="cursor-pointer text-white transition-all duration-300 hover:scale-110"
-          >
-            <Heart className="h-10 w-10" fill={liked ? 'red' : 'none'} stroke="red" type="submit" />
-          </button>
-        </form>
-        <PortfolioItemCommentsSheet portfolioItemId={portfolioItem.id} />
-      </div>
+      {!isAdmin && (
+        <div className="absolute top-1 right-1 z-10 flex flex-col items-center justify-center">
+          <form action={handleLikePortfolioItem}>
+            <input type="hidden" name="portfolioItemId" value={portfolioItem.id} />
+            <button
+              type="submit"
+              className="cursor-pointer text-white transition-all duration-300 hover:scale-110"
+            >
+              <Heart
+                className="h-10 w-10"
+                fill={liked ? 'red' : 'none'}
+                stroke="red"
+                type="submit"
+              />
+            </button>
+          </form>
+          <PortfolioItemCommentsSheet portfolioItemId={portfolioItem.id} />
+        </div>
+      )}
 
       <Image
         src={media}
