@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-type variant = 'blue' | 'red' | 'green';
+type variant = 'blue' | 'red' | 'green' | 'orange' | 'dark-green';
 
 interface AdminStatBlockLinkProps {
   href: string;
@@ -25,6 +25,12 @@ const AdminStatBlockLink = ({
       break;
     case 'green':
       color = 'bg-[#A6FF00]';
+      break;
+    case 'dark-green':
+      color = 'bg-[#008f28]';
+      break;
+    case 'orange':
+      color = 'bg-[#ff9124]';
       break;
     default:
       break;

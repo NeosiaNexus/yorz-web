@@ -3,7 +3,6 @@
 import { Prisma } from '@prisma/client';
 import { z } from 'zod';
 
-import { removeFilesAction } from '@/actions/cloud-storage-file';
 import { adminAction } from '@/lib/actions';
 import prisma from '@/lib/prisma';
 
@@ -46,14 +45,12 @@ const removePortfolioCategorieAction = adminAction
 
     if (mediaBucket && mediaPath) {
       try {
-        const res = await removeFilesAction({ bucket: mediaBucket, paths: [mediaPath] });
-        if (!res.data?.success) {
-          return {
-            success: true,
-            message:
-              "Catégorie supprimée. Cependant, l'image n'a pas pu être supprimée du stockage",
-          };
-        }
+        await prisma.storageFileDelete.create({
+          data: {
+            bucket: mediaBucket,
+            path: mediaPath,
+          },
+        });
       } catch {
         return {
           success: true,

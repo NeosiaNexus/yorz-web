@@ -3,7 +3,7 @@
 import { createId } from '@paralleldrive/cuid2';
 import { z } from 'zod';
 
-import { removeFilesAction, uploadFileAction } from '@/actions/cloud-storage-file';
+import { uploadFileAction } from '@/actions/cloud-storage-file';
 import { adminAction } from '@/lib/actions';
 import { parseZodErrors } from '@/lib/actions/parse-zod-errors';
 import prisma from '@/lib/prisma';
@@ -60,8 +60,8 @@ const createPortfolioCategorieAction = adminAction
 
       if (mediaExample && mediaExample.size > 0) {
         mediaUpload = await uploadFileAction({
-          bucket: 'categories',
-          path: categoryId,
+          bucket: 'portfolio',
+          path: `categories/${categoryId}`,
           fileData: {
             arrayBuffer: mediaExample.arrayBuffer,
             name: mediaExample.name,
@@ -105,9 +105,11 @@ const createPortfolioCategorieAction = adminAction
       } catch {
         try {
           if (mediaUpload?.data?.data?.id) {
-            await removeFilesAction({
-              bucket: 'categories',
-              paths: [mediaUpload.data.data.path],
+            await prisma.storageFileDelete.create({
+              data: {
+                bucket: 'categories',
+                path: mediaUpload.data.data.path,
+              },
             });
           }
         } catch {

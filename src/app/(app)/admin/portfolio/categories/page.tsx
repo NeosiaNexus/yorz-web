@@ -19,12 +19,12 @@ export default async function AdminPortfolioCategory(): Promise<React.JSX.Elemen
   return (
     <div className="flex flex-col items-center justify-center gap-5 text-white">
       <div>
-        <Link href={`${routes.admin.portfolio.category}/create`}>
-          <Button className="cursor-pointer rounded-xl bg-[#00863A] hover:bg-[#00863A]/80">
+        <Button className="cursor-pointer rounded-xl bg-[#00863A] hover:bg-[#00863A]/80" asChild>
+          <Link href={`${routes.admin.portfolio.category}/create`}>
             <Plus size={20} />
             Ajouter une catégorie
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </div>
       <div>
         <p className="font-comodo py-5 text-center text-5xl text-[#FF0066]">categories</p>

@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 
-import { removeFilesAction, uploadFileAction } from '@/actions/cloud-storage-file';
+import { uploadFileAction } from '@/actions/cloud-storage-file';
 import { adminAction } from '@/lib/actions/middleware';
 import { parseZodErrors } from '@/lib/actions/parse-zod-errors';
 import prisma from '@/lib/prisma';
@@ -65,15 +65,24 @@ const updatePortfolioItemAction = adminAction
 
     if (media && media?.size > 0) {
       if (portfolioItem.media) {
-        await removeFilesAction({
-          bucket: portfolioItem.media.bucket,
-          paths: [portfolioItem.media.path],
-        });
+        try {
+          await prisma.storageFileDelete.create({
+            data: {
+              bucket: portfolioItem.media.bucket,
+              path: portfolioItem.media.path,
+            },
+          });
+        } catch {
+          return {
+            success: false,
+            message: 'Erreur lors de la suppression du média en base de données',
+          };
+        }
       }
 
       const mediaUpload = await uploadFileAction({
         bucket: 'portfolio',
-        path: portfolioItem.id,
+        path: `items/${portfolioItem.id}`,
         isPublic: true,
         fileData: {
           name: media.name,
