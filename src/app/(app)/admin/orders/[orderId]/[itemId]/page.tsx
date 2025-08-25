@@ -53,7 +53,7 @@ export default async function AdminOrderItem({ params }: Props): Promise<React.J
   return (
     <div className="flex flex-col gap-5">
       <div className="self-center justify-self-center">
-        <CreateOrderItemStepDialog orderItemId={orderItem.id} orderName={orderItem.title} />
+        <CreateOrderItemStepDialog orderItemId={orderItem.id} />
       </div>
       {orderItem.steps.map(step => (
         <div key={step.id}>
